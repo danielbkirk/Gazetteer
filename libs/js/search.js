@@ -175,7 +175,7 @@ $(document).ready(function () {
         type: 'POST',
         dataType: 'json',
         data: {
-            currencyCode: $('.currencyCode').val()
+            currencyCode: $('#currencyCode').val()
         },
         success: function (result) {
             console.log(result);
