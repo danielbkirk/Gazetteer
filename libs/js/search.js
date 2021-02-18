@@ -1,3 +1,121 @@
+  var buttons = document.getElementsByClassName('navButton');
+  var temp = document.getElementsByClassName('temp');
+
+$('#countryInfoNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+
+    document.getElementById("countryInfoDiv").style.display = "block";
+    document.getElementById("newsDiv").style.display = "none";
+    document.getElementById("exchangeRateDiv").style.display = "none";
+    document.getElementById("weatherDiv").style.display = "none";
+    document.getElementById("images").style.display = "none";
+
+    for (var i = 0; i<buttons.length; i++){
+      buttons[i].style.backgroundColor = "";
+    };
+    document.getElementById("countryInfoNav").style.backgroundColor = "LightSkyBlue";
+
+
+});
+
+$('#newsNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+
+  document.getElementById("countryInfoDiv").style.display = "none";
+  document.getElementById("newsDiv").style.display = "block";
+  document.getElementById("exchangeRateDiv").style.display = "none";
+  document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("images").style.display = "none";
+
+  for (var i = 0; i<buttons.length; i++){
+    buttons[i].style.backgroundColor = "";
+  };
+  document.getElementById("newsNav").style.backgroundColor = "LightSkyBlue";
+});
+
+$('#exchangeRatesNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+  switch (document.getElementById("currencyCode").innerHTML) {
+      case "GBP":
+        document.getElementById("gbpExchangeRate").style.display = "none";
+        break;
+
+      case "USD":
+        document.getElementById("usdExchangeRate").style.display = "none";
+        break;
+
+      case "EUR":
+        document.getElementById("eurExchangeRate").style.display = "none";
+        break;
+
+      case "JPY":
+        document.getElementById("jpyExchangeRate").style.display = "none";
+        break;
+
+      default:
+        break;
+  };
+
+  document.getElementById("countryInfoDiv").style.display = "none";
+  document.getElementById("newsDiv").style.display = "none";
+  document.getElementById("exchangeRateDiv").style.display = "block";
+  document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("images").style.display = "none";
+
+  for (var i = 0; i<buttons.length; i++){
+    buttons[i].style.backgroundColor = "";
+  };
+  document.getElementById("exchangeRatesNav").style.backgroundColor = "LightSkyBlue";
+});
+
+$('#weatherNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+
+  document.getElementById("countryInfoDiv").style.display = "none";
+  document.getElementById("newsDiv").style.display = "none";
+  document.getElementById("exchangeRateDiv").style.display = "none";
+  document.getElementById("weatherDiv").style.display = "block";
+  document.getElementById("images").style.display = "none";
+
+  for (var i = 0; i<buttons.length; i++){
+    buttons[i].style.backgroundColor = "";
+  };
+  document.getElementById("weatherNav").style.backgroundColor = "LightSkyBlue";
+});
+
+$('#imageNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+
+  document.getElementById("countryInfoDiv").style.display = "none";
+  document.getElementById("newsDiv").style.display = "none";
+  document.getElementById("exchangeRateDiv").style.display = "none";
+  document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("images").style.display = "block";
+
+  for (var i = 0; i<buttons.length; i++){
+    buttons[i].style.backgroundColor = "";
+  };
+  document.getElementById("imageNav").style.backgroundColor = "LightSkyBlue";
+});
+
+$('#close').click(function() {
+  document.getElementById("information").style.display = 'none';
+  for (var i = 0; i<buttons.length; i++){
+    buttons[i].style.backgroundColor = "";
+  };
+});
+
+
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
 
@@ -10,16 +128,20 @@ if (navigator.geolocation) {
                 lng: position.coords.longitude
             },
             success: function (result) {
-               console.log(result); 
+               console.log(result);
 
 
             if(result.status.name = 'ok') {
 
-                $('#country').html(result['countryName']);
-                $('#countryCode').html(result['countryCode']);
-            }
+                $('#country').html(result['results'][0]['components']['country']);
+                $('#countryCode').html(result['results'][0]['components']['ISO_3166-1_alpha-2']);
+                $('#iso3Code').html(result['results'][0]['components']['ISO_3166-1_alpha-3']);
+                $('#continent').html(result['results'][0]['components']['continent']);
 
-        }, 
+                step1(result['results'][0]['components']['country'],result['results'][0]['components']['ISO_3166-1_alpha-2']);
+             };
+
+        },
         error: function(jqXHR, textStatus, errorThrown) {
             var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
             alert('Error - ' + errorMessage);
@@ -27,70 +149,133 @@ if (navigator.geolocation) {
 
         });
 
-        
+
 
     });
 } else {
     alert("Geo Location not supported by this device.");
 }
 
-$(document).ready(function () {
+function step1(country, code){
+  document.getElementById("countryInfoNav").click();
+
+  $.ajax({
+      url: "libs/php/restCountriesApi.php",
+      type: 'POST',
+      dataType: 'json',
+      data: {
+          countryCode: code
+      },
+      success: function (result) {
+          console.log(result);
+
+          if (result.status.name == 'ok') {
+
+              $('#callingCode').html(result['callingCode'][0]);
+              $('.currencyName').html(result['currency'][0]['name']);
+              $('.currencySymbol').html(result['currency'][0]['symbol']);
+              $('#currencyCode').html(result['currency'][0]['code']);
+              $('#languageSpoken').html(result['languages'][0]['name']);
+              $('#countryFlag').attr('src', result['flagSRC']);
+              $('#capitalCity').html(result['capitalCity']);
+              $('#population').html(result['population']);
+
+              step2(result['capitalCity'], result['currency'][0]['code']);
+
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+          alert('Error - ' + errorMessage);
+      }
+  });
+
+  $.ajax({
+      url: 'libs/php/newsCountry.php',
+      type: 'POST',
+      datatype: 'json',
+      data: {
+          countryCode: code
+      },
+      success: function (result) {
+
+          console.log(result);
+
+          if (result.status.name == 'ok') {
+
+              $('#countryNewsTitle').html(result['article'][0]['title']);
+              $('#countryNewsContent').html(result['article'][0]['content']);
+              $('#countryNewsPublisher').html(result['article'][0]['source']['name']);
+              $('#countryNewsLink').attr('href', result['article'][0]['url']);
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+          alert('Error - ' + errorMessage);
+      }
+  });
+
+  $.ajax({
+      url: 'libs/php/newsCovid.php',
+      type: 'POST',
+      datatype: 'json',
+      data: {
+          countryCode: code
+      },
+      success: function (result) {
+
+          console.log(result);
+
+          if (result.status.name == 'ok') {
+
+              $('#covidNewsTitle').html(result['article'][0]['title']);
+              $('#covidNewsContent').html(result['article'][0]['content']);
+              $('#covidNewsPublisher').html(result['article'][0]['source']['name']);
+              $('#covidNewsLink').attr('href', result['article'][0]['url']);
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+          alert('Error - ' + errorMessage);
+      }
+  });
+
     $.ajax({
-        url: "libs/php/countryCode.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            countryCode: $('#countryCode').val()
-        },
-        success: function (result) {
+    url: 'libs/php/countryImages.php',
+    type: 'POST',
+    datatype: 'json',
+    data: {
+      country: (country).replace(/ /g, '+')
+    },
+    success: function (result) {
 
-            console.log(result);
+      console.log(result);
 
-            if (result.status.name == 'ok') {
+      if (result.status.name == 'ok') {
 
-                $('#capitalCity').html(result['data'][0]['captial']);
-                $('#population').html(result['data'][0]['population']);
-                $('#continent').html(result['data'][0]['continentName']);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
+          $('#countryImage1').attr('src', result['data'][0]['webformatURL']);
+          $('#countryImage2').attr('src', result['data'][1]['webformatURL']);
+          $('#countryImage3').attr('src', result['data'][2]['webformatURL']);
+          $('#countryImage4').attr('src', result['data'][3]['webformatURL']);
+          $('#countryImage5').attr('src', result['data'][4]['webformatURL']);
+
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+      alert('Error - ' + errorMessage);
+    }
     });
 
-    $.ajax({
-        url: "libs/php/restCountriesApi.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            countryCode: $('#countryCode').val()
-        },
-        success: function (result) {
-            console.log(result);
+};
 
-            if (result.status.name == 'ok') {
-
-                $('#callingCode').html(result['callingCode'][0]);
-                $('.currencyName').html(result['currencies'][0]['name']);
-                $('.currencySymbol').html(result['currencies'][0]['symbol']);
-                $('#currencyCode').html(result['currencies'][0]['code']);
-                $('#languageSpoken').html(result['languages'][0]['name']);
-                $('#countryFlag').attr('src', result['flagSRC']);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
-    });
-
+function step2(capital, currency) {
     $.ajax({
         url: "libs/php/currentWeather.php",
         type: 'POST',
         dataType: 'json',
         data: {
-            captial: $('#capitalCity').val().replace(/ /g, '+')
+            capital: (capital).replace(/ /g, '+')
         },
         success: function (result) {
             console.log(result);
@@ -98,9 +283,9 @@ $(document).ready(function () {
             if (result.status.name == 'ok') {
 
                 $('#currentWeatherType').html(result['weather'][0]['description']);
-                $('#currentTemp').html(result['main']['temp']);
-                $('#currentMaxTemp').html(result['main']['temp_min']);
-                $('#currentMinTemp').html(result['main']['temp_max']);
+                $('#currentTemp').html(Math.round(parseFloat(result['main']['temp'])-273.15));
+                $('#currentMaxTemp').html(Math.round(parseFloat(result['main']['temp_min'])-273.15));
+                $('#currentMinTemp').html(Math.round(parseFloat(result['main']['temp_max'])-273.15));
 
             }
         },
@@ -115,52 +300,52 @@ $(document).ready(function () {
         type: 'POST',
         dataType: 'json',
         data: {
-            captial: $('#capitalCity').val().replace(/ /g, '+')
+            capital: (capital).replace(/ /g, '+')
         },
         success: function (result) {
             console.log(result);
 
             if (result.status.name == 'ok') {
 
-                $('#weatherType0').html(result['list'][0]['weather'][0]['descrption']);
-                $('#forecastTemp0').html(result['list'][0]['main']['temp']);
-                $('#forecastMin0').html(result['list'][0]['main']['temp_min']);
-                $('#forecastMax0').html(result['list'][0]['main']['temp_max']);
+                $('#weatherType0').html(result['list'][0]['weather'][0]['description']);
+                $('#forecastTemp0').html(Math.round(parseFloat(result['list'][0]['main']['temp'])-273.15));
+                $('#forecastMin0').html(Math.round(parseFloat(result['list'][0]['main']['temp_min'])-273.15));
+                $('#forecastMax0').html(Math.round(parseFloat(result['list'][0]['main']['temp_max'])-273.15));
 
-                $('#weatherType1').html(result['list'][2]['weather'][0]['descrption']);
-                $('#forecastTemp1').html(result['list'][2]['main']['temp']);
-                $('#forecastMin1').html(result['list'][2]['main']['temp_min']);
-                $('#forecastMax1').html(result['list'][2]['main']['temp_max']);
+                $('#weatherType1').html(result['list'][2]['weather'][0]['description']);
+                $('#forecastTemp1').html(Math.round(parseFloat(result['list'][2]['main']['temp'])-273.15));
+                $('#forecastMin1').html(Math.round(parseFloat(result['list'][2]['main']['temp_min'])-273.15));
+                $('#forecastMax1').html(Math.round(parseFloat(result['list'][2]['main']['temp_max'])-273.15));
 
-                $('#weatherType2').html(result['list'][4]['weather'][0]['descrption']);
-                $('#forecastTemp2').html(result['list'][4]['main']['temp']);
-                $('#forecastMin2').html(result['list'][4]['main']['temp_min']);
-                $('#forecastMax2').html(result['list'][4]['main']['temp_max']);
+                $('#weatherType2').html(result['list'][4]['weather'][0]['description']);
+                $('#forecastTemp2').html(Math.round(parseFloat(result['list'][4]['main']['temp'])-273.15));
+                $('#forecastMin2').html(Math.round(parseFloat(result['list'][4]['main']['temp_min'])-273.15));
+                $('#forecastMax2').html(Math.round(parseFloat(result['list'][4]['main']['temp_max'])-273.15));
 
-                $('#weatherType3').html(result['list'][6]['weather'][0]['descrption']);
-                $('#forecastTemp3').html(result['list'][6]['main']['temp']);
-                $('#forecastMin3').html(result['list'][6]['main']['temp_min']);
-                $('#forecastMax3').html(result['list'][6]['main']['temp_max']);
+                $('#weatherType3').html(result['list'][6]['weather'][0]['description']);
+                $('#forecastTemp3').html(Math.round(parseFloat(result['list'][6]['main']['temp'])-273.15));
+                $('#forecastMin3').html(Math.round(parseFloat(result['list'][6]['main']['temp_min'])-273.15));
+                $('#forecastMax3').html(Math.round(parseFloat(result['list'][6]['main']['temp_max'])-273.15));
 
-                $('#weatherType4').html(result['list'][8]['weather'][0]['descrption']);
-                $('#forecastTemp4').html(result['list'][8]['main']['temp']);
-                $('#forecastMin4').html(result['list'][8]['main']['temp_min']);
-                $('#forecastMax4').html(result['list'][8]['main']['temp_max']);
+                $('#weatherType4').html(result['list'][8]['weather'][0]['description']);
+                $('#forecastTemp4').html(Math.round(parseFloat(result['list'][8]['main']['temp'])-273.15));
+                $('#forecastMin4').html(Math.round(parseFloat(result['list'][8]['main']['temp_min'])-273.15));
+                $('#forecastMax4').html(Math.round(parseFloat(result['list'][8]['main']['temp_max'])-273.15));
 
-                $('#weatherType5').html(result['list'][10]['weather'][0]['descrption']);
-                $('#forecastTemp5').html(result['list'][10]['main']['temp']);
-                $('#forecastMin5').html(result['list'][10]['main']['temp_min']);
-                $('#forecastMax5').html(result['list'][10]['main']['temp_max']);
+                $('#weatherType5').html(result['list'][10]['weather'][0]['description']);
+                $('#forecastTemp5').html(Math.round(parseFloat(result['list'][10]['main']['temp'])-273.15));
+                $('#forecastMin5').html(Math.round(parseFloat(result['list'][10]['main']['temp_min'])-273.15));
+                $('#forecastMax5').html(Math.round(parseFloat(result['list'][10]['main']['temp_max'])-273.15));
 
-                $('#weatherType6').html(result['list'][12]['weather'][0]['descrption']);
-                $('#forecastTemp6').html(result['list'][12]['main']['temp']);
-                $('#forecastMin6').html(result['list'][12]['main']['temp_min']);
-                $('#forecastMax6').html(result['list'][12]['main']['temp_max']);
+                $('#weatherType6').html(result['list'][12]['weather'][0]['description']);
+                $('#forecastTemp6').html(Math.round(parseFloat(result['list'][12]['main']['temp'])-273.15));
+                $('#forecastMin6').html(Math.round(parseFloat(result['list'][12]['main']['temp_min'])-273.15));
+                $('#forecastMax6').html(Math.round(parseFloat(result['list'][12]['main']['temp_max'])-273.15));
 
-                $('#weatherType7').html(result['list'][14]['weather'][0]['descrption']);
-                $('#forecastTemp7').html(result['list'][14]['main']['temp']);
-                $('#forecastMin7').html(result['list'][14]['main']['temp_min']);
-                $('#forecastMax7').html(result['list'][14]['main']['temp_max']);
+                $('#weatherType7').html(result['list'][14]['weather'][0]['description']);
+                $('#forecastTemp7').html(Math.round(parseFloat(result['list'][14]['main']['temp'])-273.15));
+                $('#forecastMin7').html(Math.round(parseFloat(result['list'][14]['main']['temp_min'])-273.15));
+                $('#forecastMax7').html(Math.round(parseFloat(result['list'][14]['main']['temp_max'])-273.15));
 
             }
         },
@@ -175,57 +360,17 @@ $(document).ready(function () {
         type: 'POST',
         dataType: 'json',
         data: {
-            currencyCode: $('#currencyCode').val()
+            currencyCode: currency
         },
         success: function (result) {
             console.log(result);
 
             if (result.status.name == 'ok') {
 
-                $('#usdRate').html(result['rates']['USD']);
-                $('#gbpRate').html(result['rates']['GBP']);
-                $('#eurRate').html(result['rates']['EUR']);
-                $('#jpyRate').html(result['rates']['JPY']);
-
-                /*
-                 Use an if statement to initiate a switch statement
-                 switch statement gets rid of an entry of the rate if the country 
-                 uses one of the four currencies above.
-                 Once correct info is being returned - have the below statements
-                 incorporated so that it doesnt throw up an error when it cannot
-                 pull the information about an exchange rate that is not available
-                 e.g. GBP to GBP.
-
-                if ($('.currencyCode').val() == 'USD' || 'GBP' || 'EUR' || 'JPY') {
-                    
-                    switch ($('.currencyCode').val()){
-                        case 'USD':
-                           $('#usdExchangeRate').style.display = "none";
-                           *Input exchnage rate info on the other currencies below
-                           break;
-                        
-                        case 'GBP':
-                           $('#usdExchangeRate').style.display = "none";
-                           *Input exchnage rate info on the other currencies below
-                           break;
-
-                        case 'EUR':
-                            $('#usdExchangeRate').style.display = "none";
-                           *Input exchnage rate info on the other currencies below
-                           break;
-
-                        case 'JPY':
-                            $('#usdExchangeRate').style.display = "none";
-                           *Input exchnage rate info on the other currencies below
-                           break;
-
-                        default:
-                            *Input the exchanage rate information about all four
-                            * currencies below.
-                    }
-                }
-
-                 */
+                $('#usdRate').html(parseFloat(result['rates']['USD']).toFixed(2));
+                $('#gbpRate').html(parseFloat(result['rates']['GBP']).toFixed(2));
+                $('#eurRate').html(parseFloat(result['rates']['EUR']).toFixed(2));
+                $('#jpyRate').html(parseFloat(result['rates']['JPY']).toFixed(2));
 
             }
         },
@@ -236,36 +381,11 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "libs/php/newsCountry.php",
+        url: 'libs/php/newsCapital.php',
         type: 'POST',
         datatype: 'json',
         data: {
-            countryCode: $('#countryCode').val()
-        },
-        success: function (result) {
-
-            console.log(result);
-
-            if (result.status.name == 'ok') {
-
-                $('#countryNewsTitle').html(result['article'][0]['title']);
-                $('#countryNewsContent').html(result['article'][0]['content']);
-                $('#countryNewsPublisher').html(result['article'][0]['source']['name']);
-                $('#countryNewsLink').attr('href', result[0]['url']);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
-    });
-
-    $.ajax({
-        url: "libs/php/newsCapital.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            capital: $('#capitalCity').val().replace(/ /g, '+')
+            capital: (capital).replace(/ /g, '+')
         },
         success: function (result) {
 
@@ -276,7 +396,7 @@ $(document).ready(function () {
                 $('#capitalNewsTitle').html(result['article'][0]['title']);
                 $('#capitalNewsContent').html(result['article'][0]['content']);
                 $('#capitalNewsPublisher').html(result['article'][0]['source']['name']);
-                $('#capitalNewsLink').attr('href', result[0]['url']);
+                $('#capitalNewsLink').attr('href', result['article'][0]['url']);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -286,79 +406,52 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "libs/php/newsCovid.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            countryCode: $('#countryCode').val()
-        },
-        success: function (result) {
+    url: 'libs/php/capitalImages.php',
+    type: 'POST',
+    datatype: 'json',
+    data: {
+      capital: (capital).replace(/ /g, '+')
+    },
+    success: function (result) {
 
-            console.log(result);
+      console.log(result);
 
-            if (result.status.name == 'ok') {
+      if (result.status.name == 'ok') {
 
-                $('#covidNewsTitle').html(result['article'][0]['title']);
-                $('#covidNewsContent').html(result['article'][0]['content']);
-                $('#covidNewsPublisher').html(result['article'][0]['source']['name']);
-                $('#covidNewsLink').attr('href', result[0]['url']);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
+          $('#capitalImage1').attr('src', result['data'][0]['webformatURL']);
+          $('#capitalImage2').attr('src', result['data'][1]['webformatURL']);
+          $('#capitalImage3').attr('src', result['data'][2]['webformatURL']);
+          $('#capitalImage4').attr('src', result['data'][3]['webformatURL']);
+          $('#capitalImage5').attr('src', result['data'][4]['webformatURL']);
+
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+      alert('Error - ' + errorMessage);
+    }
     });
+};
 
-    $.ajax({
-        url: "libs/php/wikiSearchCountry.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            country: $('#country').val().replace(/ /g, '+')
-        },
-        success: function (result) {
+$.ajax({
+    url: 'libs/php/countryBorder.php',
+    type: 'POST',
+    datatype: 'json',
+    data: {
+        countryCode: 'GB'
+    },
+    success: function(result) {
+        console.log(result);
 
-            console.log(result);
-
-            if (result.status.name == 'ok') {
-
-                $('#wikiSummaryCountry').html(result['data'][0]['summary']);
-                $('#wikiCapitalLink').attr('href', result['data'][0]['wikipediaUrl']);
-
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
+        if (result.status.name == 'ok') {
+            console.log(result['coordinates']);
         }
-    });
-
-    $.ajax({
-        url: "libs/php/wikiSearchCapital.php",
-        type: 'POST',
-        datatype: 'json',
-        data: {
-            capital: $('#capitalCity').val().replace(/ /g, '+')
-        },
-        success: function (result) {
-
-            console.log(result);
-
-            if (result.status.name == 'ok') {
-
-                $('#wikiSummaryCapital').html(result['data'][0]['summary']);
-                $('#wikiCapitalLink').attr('href', result['data'][0]['wikipediaUrl']);
-
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-            alert('Error - ' + errorMessage);
-        }
-    });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+      alert('Error - ' + errorMessage);
+    }
 });
-
 
 
 var map = document.getElementById("map");
