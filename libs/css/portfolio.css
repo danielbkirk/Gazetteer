@@ -1,6 +1,125 @@
-﻿#map
-{
-    width: 90%;
-    height: 700px;
-   
+html {
+  font-family: Helvetica, sans-serif;
+}
+
+#map {
+    height: 90vh;
+    z-index: 1;
+}
+
+#navBar {
+    display:inline-block;
+    width:100%;
+    justify-content:space-between;
+}
+ul {
+  list-style-type: none;
+  text-align: center;
+  margin:0;
+  padding:0;
+}
+
+ul li {
+  display:inline-block;
+  padding: 2px;
+}
+
+.navButton {
+  background:none;
+  border:none;
+  font: inherit;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+#close {
+  display:inline-block;
+  float:right;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+#information{
+  max-height: 45vh;
+  width: 60vw;
+  overflow-y: auto;
+  position:fixed;
+  margin:0 auto;
+  top: 30vh;
+  left: 20vw;
+  z-index: 3;
+  background-color: white;
+  border: 1px solid black;
+}
+
+#countryFlag {
+  width: 95%;
+  height: auto;
+}
+
+table{
+  border: 2px solid black;
+  width: 100%;
+}
+
+td {
+  border-top: 1px solid gray;
+}
+
+#countryFlag {
+  width:100%;
+  height:auto;
+}
+
+
+.pictures {
+  max-width: 99%;
+  max-height: 45vh;
+  display: block;
+  margin: 5px auto;
+  border: 1px solid black;
+}
+
+
+@media (min-width: 600px) {
+
+    #closeDiv{
+        display: none;
+    }
+
+    .pictures {
+    }
+
+    body {
+        width: 90vw;
+        margin: auto;
+    }
+
+    #information {
+      z-index: 0;
+        float: right;
+        width: 30%;
+        position: static;
+        max-height: 95vh;
+    }
+
+    #map {
+        width: 67%;
+        height: 95vh;
+        float: left;
+        z-index: 0;
+
+    }
+
+    #navDiv {
+        padding: 15px;
+        width: inherit;
+    }
+
+    #navBar {
+        display: flex;
+        justify-content: center;
+    }
 }
