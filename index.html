@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -24,39 +24,40 @@
 <body>
     <div id="navDiv">
         <nav id="navBar">
-            <a href="#" id="countryInfoNav">Country Information</a>
-            <a href="#" id="newsNav">News</a>
-            <a href="#" id="exchangeRatesNav" >Exchange Rates</a>
-            <a href="#" id="weatherNav">Weather Forecast</a>
-            <a href="#" id="wikiNav">Wikipedia Search</a>
-            
+            <ul>
+                <li><button class="navButton" id="countryInfoNav">Country Information</button></li>
+
+                <li><button class="navButton" id="newsNav">News</button></li>
+
+                <li><button class="navButton" id="exchangeRatesNav">Exchange Rates</button></li>
+
+                <li><button class="navButton" id="weatherNav">Weather Forecast</button></li>
+
+                <li><button class="navButton" id="imageNav">Images</button></li>
+
+            </ul>
         </nav>
     </div>
 
     <div id="map">
-       
+
     </div>
 
-    <div>
-        <!-- Information on the pop up will go here. Width 50% centered and max height at 50% too and the ability to scroll if it overflowed.
-            I need to insert every section that will hold data within the section.
-            On load only information regarding the country will be displayed.
-            When a button is pressed in the navbar it will hide the current information and then display the information related to the button.
-        -->
+    <div id="information">
+      <div id='closeDiv'>
+        <button id='close'>x</button>
+      </div>
         <div id="countryInfoDiv">
             <table>
 
                 <tr>
-                    <td colspan="2" id="countryFlag">
-                        <img src="" alt="Country Flag" />
+                    <td colspan="2">
+                        <img id="countryFlag" src="" alt="Country Flag" />
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
-                        Country:
-                    </td>
-                    <td id="country">
+                    <td colspan="2" id="country">
 
                     </td>
                 </tr>
@@ -110,8 +111,8 @@
                     <td>
                         Calling Code:
                     </td>
-                    <td id="callingCode">
-
+                    <td>
+                      +<span id=callingCode></span>
                     </td>
                 </tr>
 
@@ -147,15 +148,20 @@
                     </td>
                 </tr>
 
-                <tr id="countryNewsContent">
-
-                    <!--include an anchor tag at the end of the first line saying
-        to read more click here-->
-                    <p>To read more click <a id="countryNewsLink" target="_blank" href="">here.</a></p>
-                </tr>
-
                 <tr>
-                    <td id="captialNewsTitle">
+                    <td id="countryNewsContent">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        To read more click <a id="countryNewsLink" target="_blank" href="">here.</a>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td id="capitalNewsTitle">
                     </td>
                 </tr>
 
@@ -164,13 +170,17 @@
                     </td>
                 </tr>
 
-                <tr id="capitalNewsContent">
-
-                    <!--include an anchor tag at the end of the first line saying
-        to read more click here-->
-                    <p>To read more click <a id="capitalNewsLink" target="_blank" href="">here.</a></p>
+                <tr >
+                    <td id="capitalNewsContent">
+                    </td>
                 </tr>
-
+                <tr>
+                    <td>
+                        To read more click <a id="capitalNewsLink" target="_blank" href="">here.</a>
+                    </td>
+                </tr>
+            </table>
+            <table>
                 <tr>
                     <td id="covidNewsTitle">
                     </td>
@@ -181,11 +191,14 @@
                     </td>
                 </tr>
 
-                <tr id="covidNewsContent">
-
-                    <!--include an anchor tag at the end of the first line saying
-        to read more click here-->
-                    <p>To read more click <a id="covidNewsLink" target="_blank" href="">here.</a></p>
+                <tr>
+                    <td id="covidNewsContent">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        To read more click <a id="covidNewsLink" target="_blank" href="">here.</a>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -195,35 +208,34 @@
                 <tr>
                     <td colspan="2">
                         Exchange Rates
-                        &nbsp;
-                        <img src="" width="30%" height="auto" id="currencyImage" />
-                        <p id="currencyExchangeDescription">The currency here is <span class="currencyname"></span>, <span id="currencyCode"></span> and the symbol is <span class="currencySymbol"></span>.</p>
-                        &nbsp;
-                        <p>1 <span class="currencyName"></span> is equivilent to: </p>
+
+                        <p id="currencyExchangeDescription">The currency here is the <span class="currencyName"></span>, <span id="currencyCode"></span>, and the symbol is <span class="currencySymbol"></span>.</p>
+
+                        <p><span class="currencySymbol"></span>1 is equivilent to: </p>
                     </td>
                 </tr>
 
                 <tr  id="usdExchangeRate">
                     <td>
-                        USD $<span id="usdRate"></span>
+                        USD  $<span id="usdRate"></span>
                     </td>
                 </tr>
 
                 <tr id="gbpExchangeRate">
                     <td>
-                        GBP £<span id="gbpRate"></span>
+                        GBP  £<span id="gbpRate"></span>
                     </td>
                 </tr>
 
                 <tr id="eurExchangeRate">
                     <td>
-                        EUR €<span id="eurRate"></span>
+                        EUR  €<span id="eurRate"></span>
                     </td>
                 </tr>
 
                 <tr id="jpyExchangeRate">
                     <td>
-                        JPY <span>&#165</span><span id="jpyRate"></span>
+                        JPY  <span>&#165</span><span id="jpyRate"></span>
                     </td>
                 </tr>
 
@@ -251,7 +263,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="currentTemp">
+                    <td id="currentTemp" class="temp">
 
                     </td>
                 </tr>
@@ -260,7 +272,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="currentMaxTemp">
+                    <td id="currentMaxTemp" class="temp">
 
                     </td>
                 </tr>
@@ -269,7 +281,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="currentMinTemp">
+                    <td id="currentMinTemp" class="temp">
 
                     </td>
                 </tr>
@@ -298,7 +310,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp0">
+                    <td id="forecastTemp0" class="temp">
                     </td>
                 </tr>
 
@@ -306,7 +318,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax0">
+                    <td id="forecastMax0" class="temp">
                     </td>
                 </tr>
 
@@ -314,7 +326,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin0">
+                    <td id="forecastMin0" class="temp">
                     </td>
                 </tr>
 
@@ -334,7 +346,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp1">
+                    <td id="forecastTemp1" class="temp">
                     </td>
                 </tr>
 
@@ -342,7 +354,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax1">
+                    <td id="forecastMax1" class="temp">
                     </td>
                 </tr>
 
@@ -350,7 +362,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin1">
+                    <td id="forecastMin1" class="temp">
                     </td>
                 </tr>
 
@@ -370,7 +382,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp2">
+                    <td id="forecastTemp2" class="temp">
                     </td>
                 </tr>
 
@@ -378,7 +390,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax2">
+                    <td id="forecastMax2" class="temp">
                     </td>
                 </tr>
 
@@ -386,7 +398,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin2">
+                    <td id="forecastMin2" class="temp">
                     </td>
                 </tr>
 
@@ -406,7 +418,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp3">
+                    <td id="forecastTemp3" class="temp">
                     </td>
                 </tr>
 
@@ -414,7 +426,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax3">
+                    <td id="forecastMax3" class="temp">
                     </td>
                 </tr>
 
@@ -422,7 +434,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin3">
+                    <td id="forecastMin3" class="temp">
                     </td>
                 </tr>
 
@@ -442,7 +454,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp4">
+                    <td id="forecastTemp4" class="temp">
                     </td>
                 </tr>
 
@@ -450,7 +462,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax4">
+                    <td id="forecastMax4" class="temp">
                     </td>
                 </tr>
 
@@ -458,7 +470,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin4">
+                    <td id="forecastMin4" class="temp">
                     </td>
                 </tr>
 
@@ -478,7 +490,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp5">
+                    <td id="forecastTemp5" class="temp">
                     </td>
                 </tr>
 
@@ -486,7 +498,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax5">
+                    <td id="forecastMax5" class="temp">
                     </td>
                 </tr>
 
@@ -494,7 +506,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin5">
+                    <td id="forecastMin5" class="temp">
                     </td>
                 </tr>
 
@@ -514,7 +526,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp6">
+                    <td id="forecastTemp6" class="temp">
                     </td>
                 </tr>
 
@@ -522,7 +534,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax6">
+                    <td id="forecastMax6" class="temp">
                     </td>
                 </tr>
 
@@ -530,7 +542,7 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin6">
+                    <td id="forecastMin6" class="temp">
                     </td>
                 </tr>
 
@@ -550,7 +562,7 @@
                     <td>
                         Temperature:
                     </td>
-                    <td id="forecastTemp7">
+                    <td id="forecastTemp7" class="temp">
                     </td>
                 </tr>
 
@@ -558,7 +570,7 @@
                     <td>
                         Max Temperature:
                     </td>
-                    <td id="forecastMax7">
+                    <td id="forecastMax7" class="temp">
                     </td>
                 </tr>
 
@@ -566,44 +578,53 @@
                     <td>
                         Min Temperature:
                     </td>
-                    <td id="forecastMin7">
+                    <td id="forecastMin7" class="temp">
                     </td>
                 </tr>
 
             </table>
         </div>
+        <div id="images">
+                <div id="countryImageDiv1">
+                    <img src="" id="countryImage1" class="pictures" />
+                </div>
 
-        <div id="wikiDiv">
-            <table>
-                <tr>
-                    <td>
-                        Country Summary
-                    </td>
+                <div id="countryImageDiv2">
+                    <img src="" id="countryImage2" class="pictures"/>
+                </div>
 
-                    <td id="wikiSummaryCountry">
-                    </td>
+                <div id="countryImageDiv3">
+                    <img src="" id="countryImage3" class="pictures"/>
+                </div>
 
-                </tr>
+                <div id="countryImageDiv4">
+                    <img src="" id="countryImage4" class="pictures"/>
+                </div>
 
-                <tr>
-                    <td>Click <a id="wikiCountryLink" href="" target="_blank">here</a> to read more</td>
-                </tr>
+                <div id="countryImageDiv5">
+                    <img src="" id="countryImage5" class="pictures"/>
+                </div>
 
-                <tr>
-                    <td>
-                        Capital city Summary
-                    </td>
+                <div id="capitalImageDiv1">
+                    <img src="" id="capitalImage1" class="pictures"/>
+                </div>
 
-                    <td id="wikiSummaryCapital">
-                    </td>
+                <div id="capitalImageDiv2">
+                    <img src="" id="capitalImage2" class="pictures"/>
+                </div>
 
-                </tr>
+                <div id="capitalImageDiv3">
+                    <img src="" id="capitalImage3" class="pictures"/>
+                </div>
 
-                <tr>
-                    <td>Click <a id="wikiCapitalLink" href="" target="_blank">here</a> to read more</td>
-                </tr>
+                <div id="capitalImageDiv4">
+                    <img src="" id="capitalImage4" class="pictures"/>
+                </div>
 
-            </table>
+                <div id="capitalImageDiv5">
+                    <img src="" id="capitalImage5" class="pictures"/>
+                </div>
+
         </div>
     </div>
 
