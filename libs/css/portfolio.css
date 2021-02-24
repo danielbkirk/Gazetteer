@@ -1,13 +1,31 @@
-html {
+html,body {
   font-family: Helvetica, sans-serif;
+  height: 100%;
+  margin: 0;
+}
+
+td, p {
+  text-align:center;
+}
+
+#fullPage {
+    display: flex;
+    flex-flow:column;
+    height: 100%;
+}
+
+#restOfPage {
+    flex: 1 1 auto;
 }
 
 #map {
-    height: 90vh;
     z-index: 1;
+    flex: 1 1 auto;
+    height:100%;
 }
 
 #navBar {
+    flex: 0 1 auto;
     display:inline-block;
     width:100%;
     justify-content:space-between;
@@ -89,28 +107,30 @@ td {
         display: none;
     }
 
-    .pictures {
-    }
-
     body {
         width: 90vw;
         margin: auto;
     }
 
+    #restOfPage {
+        flex: 1 1 auto;
+        margin-bottom: 5px;
+    }
+
     #information {
       z-index: 0;
         float: right;
-        width: 30%;
+        max-width: 30%;
         position: static;
-        max-height: 95vh;
+        max-height: 90vh;
     }
 
     #map {
         width: 67%;
-        height: 95vh;
+        height:100%;
         float: left;
         z-index: 0;
-
+        flex: initial;
     }
 
     #navDiv {
