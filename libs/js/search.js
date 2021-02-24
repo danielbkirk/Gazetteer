@@ -1,6 +1,7 @@
   var buttons = document.getElementsByClassName('navButton');
   var temp = document.getElementsByClassName('temp');
 
+
 $('#countryInfoNav').click(function() {
   if (document.getElementById("information").style.display == "none") {
     document.getElementById("information").style.display = "block"
@@ -10,14 +11,13 @@ $('#countryInfoNav').click(function() {
     document.getElementById("newsDiv").style.display = "none";
     document.getElementById("exchangeRateDiv").style.display = "none";
     document.getElementById("weatherDiv").style.display = "none";
+    document.getElementById("wikiDiv").style.display = "none";
     document.getElementById("images").style.display = "none";
 
     for (var i = 0; i<buttons.length; i++){
       buttons[i].style.backgroundColor = "";
     };
     document.getElementById("countryInfoNav").style.backgroundColor = "LightSkyBlue";
-
-
 });
 
 $('#newsNav').click(function() {
@@ -29,6 +29,7 @@ $('#newsNav').click(function() {
   document.getElementById("newsDiv").style.display = "block";
   document.getElementById("exchangeRateDiv").style.display = "none";
   document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("wikiDiv").style.display = "none";
   document.getElementById("images").style.display = "none";
 
   for (var i = 0; i<buttons.length; i++){
@@ -66,6 +67,7 @@ $('#exchangeRatesNav').click(function() {
   document.getElementById("newsDiv").style.display = "none";
   document.getElementById("exchangeRateDiv").style.display = "block";
   document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("wikiDiv").style.display = "none";
   document.getElementById("images").style.display = "none";
 
   for (var i = 0; i<buttons.length; i++){
@@ -83,6 +85,7 @@ $('#weatherNav').click(function() {
   document.getElementById("newsDiv").style.display = "none";
   document.getElementById("exchangeRateDiv").style.display = "none";
   document.getElementById("weatherDiv").style.display = "block";
+  document.getElementById("wikiDiv").style.display = "none";
   document.getElementById("images").style.display = "none";
 
   for (var i = 0; i<buttons.length; i++){
@@ -100,6 +103,7 @@ $('#imageNav').click(function() {
   document.getElementById("newsDiv").style.display = "none";
   document.getElementById("exchangeRateDiv").style.display = "none";
   document.getElementById("weatherDiv").style.display = "none";
+  document.getElementById("wikiDiv").style.display = "none";
   document.getElementById("images").style.display = "block";
 
   for (var i = 0; i<buttons.length; i++){
@@ -114,6 +118,31 @@ $('#close').click(function() {
     buttons[i].style.backgroundColor = "";
   };
 });
+
+$('#wikiNav').click(function() {
+  if (document.getElementById("information").style.display == "none") {
+    document.getElementById("information").style.display = "block"
+  };
+
+    document.getElementById("countryInfoDiv").style.display = "none";
+    document.getElementById("newsDiv").style.display = "none";
+    document.getElementById("exchangeRateDiv").style.display = "none";
+    document.getElementById("weatherDiv").style.display = "none";
+    document.getElementById("wikiDiv").style.display = "block";
+    document.getElementById("images").style.display = "none";
+
+    for (var i = 0; i<buttons.length; i++){
+      buttons[i].style.backgroundColor = "";
+    };
+    document.getElementById("wikiNav").style.backgroundColor = "LightSkyBlue";
+});
+
+var map = document.getElementById("map");
+var mymap = L.map('map');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mymap);
 
 
 if (navigator.geolocation) {
@@ -131,12 +160,14 @@ if (navigator.geolocation) {
                console.log(result);
 
 
-            if(result.status.name = 'ok') {
+            if(result.status.name == 'ok') {
 
                 $('#country').html(result['results'][0]['components']['country']);
                 $('#countryCode').html(result['results'][0]['components']['ISO_3166-1_alpha-2']);
                 $('#iso3Code').html(result['results'][0]['components']['ISO_3166-1_alpha-3']);
                 $('#continent').html(result['results'][0]['components']['continent']);
+
+                mymap.setView([position.coords.latitude, position.coords.longitude], 12);
 
                 step1(result['results'][0]['components']['country'],result['results'][0]['components']['ISO_3166-1_alpha-2']);
              };
@@ -160,6 +191,41 @@ function step1(country, code){
   document.getElementById("countryInfoNav").click();
 
   $.ajax({
+      url: "libs/php/countryBorder.php",
+      type: 'POST',
+      datatype: 'json',
+      data: {
+          countryCode: code
+      },
+      success: function(result) {
+          console.log(result);
+
+          if (result.status.name == 'ok') {
+
+
+              var myStyle ={
+                  'color': 'red',
+                  'weight': 3,
+                  'opacity': 0.5,
+                  'fillOpacity': 0
+              };
+
+              L.geoJSON(result['data']['border'],{
+                  style: myStyle
+              }).addTo(mymap);
+
+              var bounds = L.geoJSON(result['data']['border']);
+
+              mymap.fitBounds(bounds.getBounds());
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+        alert('Error - ' + errorMessage);
+      }
+  });
+
+  $.ajax({
       url: "libs/php/restCountriesApi.php",
       type: 'POST',
       dataType: 'json',
@@ -180,7 +246,7 @@ function step1(country, code){
               $('#capitalCity').html(result['capitalCity']);
               $('#population').html(result['population']);
 
-              step2(result['capitalCity'], result['currency'][0]['code']);
+              step2(result['capitalCity'], result['currency'][0]['code'], code);
 
           }
       },
@@ -267,9 +333,33 @@ function step1(country, code){
     }
     });
 
+    $.ajax({
+        url: 'libs/php/wikiCountry.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            country: (country).replace(/ /g, '%20')
+        },
+        success: function (result) {
+
+            console.log(result);
+
+            if (result.status.name == 'ok') {
+
+                $('#countryWikiTitle').html(result['data'][0]['title']);
+                $('#countryWikiSummary').html(result['data'][0]['summary']);
+                $('#countryWikiLink').attr('href','https://' +  result['data'][0]['wikipediaUrl']);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+            alert('Error - ' + errorMessage);
+        }
+    });
+
 };
 
-function step2(capital, currency) {
+function step2(capital, currency, code) {
     $.ajax({
         url: "libs/php/currentWeather.php",
         type: 'POST',
@@ -431,32 +521,29 @@ function step2(capital, currency) {
       alert('Error - ' + errorMessage);
     }
     });
-};
 
-$.ajax({
-    url: 'libs/php/countryBorder.php',
-    type: 'POST',
-    datatype: 'json',
-    data: {
-        countryCode: 'GB'
-    },
-    success: function(result) {
-        console.log(result);
+    $.ajax({
+        url: 'libs/php/wikiCapital.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            capital: (capital).replace(/ /g, '+'),
+            code: code
+        },
+        success: function (result) {
 
-        if (result.status.name == 'ok') {
-            console.log(result['coordinates']);
+            console.log(result);
+
+            if (result.status.name == 'ok') {
+
+                $('#capitalWikiTitle').html(result['data'][0]['title']);
+                $('#capitalWikiSummary').html(result['data'][0]['summary']);
+                $('#capitalWikiLink').attr('href','https://' + result['data'][0]['wikipediaUrl']);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
+            alert('Error - ' + errorMessage);
         }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      var errorMessage = jqXHR.status + ': ' + jqXHR.statusText;
-      alert('Error - ' + errorMessage);
-    }
-});
-
-
-var map = document.getElementById("map");
-var mymap = L.map('map').setView([51.509, -0.118], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap);
+    });
+};
