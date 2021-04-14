@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Country Information</title>
     <meta name="description" content="Information on country that the user is in">
     <meta name="author" content="Daniel Kirk">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <!--Insert Favicon? -->
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -17,685 +21,315 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
             integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
             crossorigin=""></script>
-    <link rel="stylesheet" href="libs/css/portfolio.css" />
 
-</head>
+    <link rel="stylesheet" href="libs/css/portfolio.css"/>
 
-<body>
-  <div id="fullPage">
-    <div id="navDiv">
-        <nav id="navBar">
-            <ul>
-                <li><button class="navButton" id="countryInfoNav">Country Information</button></li>
+  </head>
+  <body>
 
-                <li><button class="navButton" id="newsNav">News</button></li>
+      <div id="headerDiv">
+          <div id="navDiv">
+              <nav id="navBar">
+                  <ul>
+                      <li><button class="navButton" id="countryInfoNav">Country Information</button></li>
 
-                <li><button class="navButton" id="exchangeRatesNav">Exchange Rates</button></li>
+                      <li><button class="navButton" id="newsNav">News</button></li>
 
-                <li><button class="navButton" id="weatherNav">Weather Forecast</button></li>
+                      <li><button class="navButton" id="exchangeRatesNav">Exchange Rates</button></li>
 
-                <li><button class="navButton" id="wikiNav">Wiki Information</button></li>
+                      <li><button class="navButton" id="weatherNav">Weather Forecast</button></li>
 
-                <li><button class="navButton" id="imageNav">Images</button></li>
+                      <li><button class="navButton" id="imageNav">Images</button></li>
 
-            </ul>
-        </nav>
-    </div>
-    <div id="restOfPage">
-        <div id="map">
-
-        </div>
-
-        <div id="information">
-          <div id='closeDiv'>
-            <button id='close'>x</button>
+                  </ul>
+              </nav>
           </div>
-            <div id="countryInfoDiv">
-                <table>
-
-                    <tr>
-                        <td colspan="2">
-                            <img id="countryFlag" src="" alt="Country Flag" />
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" id="country">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Country Code:
-                        </td>
-                        <td id="countryCode">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            ISO3 code <!--This needs to be hidden, used as a place holder-->
-                        </td>
-                        <td id="iso3Code">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Capital City:
-                        </td>
-                        <td id="capitalCity">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Population:
-                        </td>
-                        <td id="population">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Continent:
-                        </td>
-                        <td id="continent">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Calling Code:
-                        </td>
-                        <td>
-                          +<span id=callingCode></span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Currency:
-                        </td>
-                        <td class="currencyName">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Main Language:
-                        </td>
-                        <td id="languageSpoken">
-
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div id="newsDiv">
-                <table>
-                    <tr>
-                        <td id="countryNewsTitle">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="countryNewsPublisher">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="countryNewsContent">
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            To read more click <a id="countryNewsLink" target="_blank" href="">here.</a>
-                        </td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td id="capitalNewsTitle">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="capitalNewsPublisher">
-                        </td>
-                    </tr>
-
-                    <tr >
-                        <td id="capitalNewsContent">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            To read more click <a id="capitalNewsLink" target="_blank" href="">here.</a>
-                        </td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td id="covidNewsTitle">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="covidNewsPublisher">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="covidNewsContent">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            To read more click <a id="covidNewsLink" target="_blank" href="">here.</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div id="exchangeRateDiv">
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            Exchange Rates
-
-                            <p id="currencyExchangeDescription">The currency here is the <span class="currencyName"></span>, <span id="currencyCode"></span>, and the symbol is <span class="currencySymbol"></span>.</p>
-
-                            <p><span class="currencySymbol"></span>1 is equivilent to: </p>
-                        </td>
-                    </tr>
-
-                    <tr  id="usdExchangeRate">
-                        <td>
-                            USD  $<span id="usdRate"></span>
-                        </td>
-                    </tr>
-
-                    <tr id="gbpExchangeRate">
-                        <td>
-                            GBP  £<span id="gbpRate"></span>
-                        </td>
-                    </tr>
-
-                    <tr id="eurExchangeRate">
-                        <td>
-                            EUR  €<span id="eurRate"></span>
-                        </td>
-                    </tr>
-
-                    <tr id="jpyExchangeRate">
-                        <td>
-                            JPY  <span>&#165;</span><span id="jpyRate"></span>
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div id="weatherDiv">
-                <table>
-                    <tr>
-                        <td colspan="2">
-                            Current Weather
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="currentWeatherType">
-
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="currentTemp"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="currentMaxTemp"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="currentMinTemp"></span>&#8451;
-                        </td>
-                    </tr>
-
-                </table>
-
-                <table id="forecast">
-
-                    <tr>
-                        <td colspan="2">Forecast</td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+6 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType0">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp0"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax0"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin0"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+12 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType1">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp1"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span  id="forecastMax1"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin1"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+18 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType2">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp2"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax2"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin2"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+24 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType3">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp3"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax3"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin3"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+30 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType4">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp4"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax4"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin4"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+36 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType5">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp5"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax5"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin5"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+42 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType6">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp6"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax6"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMin6"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2">+48 Hours</td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Weather:
-                        </td>
-                        <td id="weatherType7">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastTemp7"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Max Temperature:
-                        </td>
-                        <td class="temp">
-                            <span id="forecastMax7"></span>&#8451;
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Min Temperature:
-                        </td>
-                        <td  class="temp">
-                            <span id="forecastMin7"></span>&#8451;
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div id="wikiDiv">
-                <table>
-                    <tr>
-                        <td id="countryWikiTitle">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="countryWikiSummary">
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            To read more click <a id="countryWikiLink" target="_blank" href="">here.</a>
-                        </td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td id="capitalWikiTitle">
-                        </td>
-                    </tr>
-
-                    <tr >
-                        <td id="capitalWikiSummary">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            To read more click <a id="capitalWikiLink" target="_blank" href="">here.</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div id="images">
-                    <div id="countryImageDiv1">
-                        <img src="" id="countryImage1" class="pictures" />
-                    </div>
-
-                    <div id="countryImageDiv2">
-                        <img src="" id="countryImage2" class="pictures"/>
-                    </div>
-
-                    <div id="countryImageDiv3">
-                        <img src="" id="countryImage3" class="pictures"/>
-                    </div>
-
-                    <div id="countryImageDiv4">
-                        <img src="" id="countryImage4" class="pictures"/>
-                    </div>
-
-                    <div id="countryImageDiv5">
-                        <img src="" id="countryImage5" class="pictures"/>
-                    </div>
-
-                    <div id="capitalImageDiv1">
-                        <img src="" id="capitalImage1" class="pictures"/>
-                    </div>
-
-                    <div id="capitalImageDiv2">
-                        <img src="" id="capitalImage2" class="pictures"/>
-                    </div>
-
-                    <div id="capitalImageDiv3">
-                        <img src="" id="capitalImage3" class="pictures"/>
-                    </div>
-
-                    <div id="capitalImageDiv4">
-                        <img src="" id="capitalImage4" class="pictures"/>
-                    </div>
-
-                    <div id="capitalImageDiv5">
-                        <img src="" id="capitalImage5" class="pictures"/>
-                    </div>
-                    <p>All images are sourced from <a target="_blank" href="https://pixabay.com/">pixabay.com</a></p>
-                </div>
-            </div>
-        </div>
 
-
+          <div id="selectDiv">
+              <select name="country" id="countryList">
+
+              </select>
+          </div>
+    </div>
+
+      <div id="map">
+      </div>
+
+      <div id="information">
+          <table id="closeDiv">
+              <tr><td><button id="close"><i class="bi bi-x-circle"></i></button></td></tr>
+          </table>
+
+          <div id="countryInfoDiv">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td colspan="2"><img id="countryFlag" src="" alt="Country Flag"/></td>
+                </tr>
+
+                <tr>
+                  <td id="country" class="data"></td>
+                  <td id="countryCode" class="data"></td>
+                </tr>
+
+                <tr>
+                  <td>Capital City:</td>
+                  <td class="capitalCity data"></td>
+                </tr>
+
+                <tr>
+                  <td>Population:</td>
+                  <td id="population" class="data"></td>
+                </tr>
+
+                <tr>
+                  <td>Continent:</td>
+                  <td id="continent" class="data"></td>
+                </tr>
+
+                <tr>
+                  <td>Currency:</td>
+                  <td class="currencyName data"></td>
+                </tr>
+
+                <tr>
+                  <td>Calling Code:</td>
+                  <td id="callingCode" class="data"></td>
+                </tr>
+
+                <tr>
+                  <td>Main Language:</td>
+                  <td id="languageSpoken" class="data"></td>
+                </tr>
+
+                <tr>
+                  <td colspan="2"><span id="countryWikiSummary" class="data" ></span> To read more click <a id="countryWikiLink" target="_blank" class="link" href="">here.</a></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div id="newsDiv">
+            <table id="countryNewsTable" class="table table-striped">
+              <tr>
+                <td>
+                    <h6 id="countryNewsTitle" class="data countryNews"></h6>
+                    <p id="countryNewsContent" class="data countryNews"></p>
+                    <p class="countryNews">To read more click <a id="countryNewsLink" class="link" target="_blank" href="">here!</a> </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                    <h6 id="capitalNewsTitle" class="data capitalNews"></h6>
+                    <p id="capitalNewsContent" class="data capitalNews"></p>
+                    <p class="capitalNews">To read more click <a id="capitalNewsLink" class="link" target="_blank" href="">here!</a> </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                    <h6 id="covidNewsTitle" class="data covidNews"></h6>
+                    <p id="covidNewsContent" class="data covidNews"></p>
+                    <p class="covidNews">To read more click <a id="covidNewsLink" class="link" target="_blank" href="">here!</a> </p>
+                </td>
+              </tr>
+
+            </table>
+          </div>
+
+          <div id="exchangeRateDiv">
+            <table class="table table-striped">
+                <tr id="currencyExchangeDescription">
+                    <td>
+                        The currency here is the <span class="currencyName data"></span>, <span id="currencyCode" class="data"></span>, and the symbol is <span class="currencySymbol data"></span>.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span class="currencySymbol data"></span>1 is equivilent to:
+                    </td>
+                </tr>
+
+                <tr id="usdExchangeRate">
+                    <td>
+                        USD  $<span id="usdRate" class="data"></span>
+                    </td>
+                </tr>
+
+                <tr id="gbpExchangeRate">
+                    <td>
+                        GBP  £<span id="gbpRate" class="data"></span>
+                    </td>
+                </tr>
+
+                <tr id="eurExchangeRate">
+                    <td>
+                        EUR  €<span id="eurRate" class="data"></span>
+                    </td>
+                </tr>
+
+                <tr id="jpyExchangeRate">
+                    <td>
+                        JPY  &#165;<span id="jpyRate" class="data"></span>
+                    </td>
+                </tr>
+            </table>
+          </div>
+
+          <div id="weatherDiv">
+              <div><h5><b>Weather in <span class="capitalCity data"></span>.</b></h5></div>
+              <select id='time' name='time'>
+                  <option value="current" id="current">Current</option>
+                  <option value="time0" id="time0"></option>
+                  <option value="time1" id="time1"></option>
+                  <option value="time2" id="time2"></option>
+                  <option value="time3" id="time3"></option>
+                  <option value="time4" id="time4"></option>
+                  <option value="time5" id="time5"></option>
+                  <option value="time6" id="time6"></option>
+                  <option value="time7" id="time7"></option>
+              </select>
+
+              <table id="weatherTable" class="table table-striped">
+                <tbody>
+                  <tr>
+                      <th>Weather</th>
+                      <td id="currentWeatherType" class="data current weather"></td>
+                      <td id="weatherType0" class="data time0 weather"></td>
+                      <td id="weatherType1" class="data time1 weather"></td>
+                      <td id="weatherType2" class="data time2 weather"></td>
+                      <td id="weatherType3" class="data time3 weather"></td>
+                      <td id="weatherType4" class="data time4 weather"></td>
+                      <td id="weatherType5" class="data time5 weather"></td>
+                      <td id="weatherType6" class="data time6 weather"></td>
+                      <td id="weatherType7" class="data time7 weather"></td>
+                  </tr>
+
+                  <tr>
+                      <th>Temperature</th>
+                      <td id="currentTemp" class="data current weather"></td>
+                      <td id="forecastTemp0" class="data time0 weather"></td>
+                      <td id="forecastTemp1" class="data time1 weather"></td>
+                      <td id="forecastTemp2" class="data time2 weather"></td>
+                      <td id="forecastTemp3" class="data time3 weather"></td>
+                      <td id="forecastTemp4" class="data time4 weather"></td>
+                      <td id="forecastTemp5" class="data time5 weather"></td>
+                      <td id="forecastTemp6" class="data time6 weather"></td>
+                      <td id="forecastTemp7" class="data time7 weather"></td>
+                  </tr>
+
+                  <tr>
+                      <th>Min/Max Temperature</th>
+                      <td class="current weather"><span id="currentMinTemp" class="data"></span>/<span id="currentMaxTemp" class="data"></span></td>
+                      <td class="time0 weather"><span id="forecastMin0" class="data"></span>/<span id="forecastMax0" class="data"></span></td>
+                      <td class="time1 weather"><span id="forecastMin1" class="data"></span>/<span id="forecastMax1" class="data"></span></td>
+                      <td class="time2 weather"><span id="forecastMin2" class="data"></span>/<span id="forecastMax2" class="data"></span></td>
+                      <td class="time3 weather"><span id="forecastMin3" class="data"></span>/<span id="forecastMax3" class="data"></span></td>
+                      <td class="time4 weather"><span id="forecastMin4" class="data"></span>/<span id="forecastMax4" class="data"></span></td>
+                      <td class="time5 weather"><span id="forecastMin5" class="data"></span>/<span id="forecastMax5" class="data"></span></td>
+                      <td class="time6 weather"><span id="forecastMin6" class="data"></span>/<span id="forecastMax6" class="data"></span></td>
+                      <td class="time7 weather"><span id="forecastMin7" class="data"></span>/<span id="forecastMax7" class="data"></span></td>
+                  </tr>
+
+                  <tr>
+                      <th>Feels Like</th>
+                      <td id="feelsTemp" class="data current weather"></td>
+                      <td id="feelsTemp0" class="data time0 weather"></td>
+                      <td id="feelsTemp1" class="data time1 weather"></td>
+                      <td id="feelsTemp2" class="data time2 weather"></td>
+                      <td id="feelsTemp3" class="data time3 weather"></td>
+                      <td id="feelsTemp4" class="data time4 weather"></td>
+                      <td id="feelsTemp5" class="data time5 weather"></td>
+                      <td id="feelsTemp6" class="data time6 weather"></td>
+                      <td id="feelsTemp7" class="data time7 weather"></td>
+                  </tr>
+
+                  <tr>
+                      <th>Humidity</th>
+                      <td id="humidity" class="data current weather"></td>
+                      <td id="humidity0" class="data time0 weather"></td>
+                      <td id="humidity1" class="data time1 weather"></td>
+                      <td id="humidity2" class="data time2 weather"></td>
+                      <td id="humidity3" class="data time3 weather"></td>
+                      <td id="humidity4" class="data time4 weather"></td>
+                      <td id="humidity5" class="data time5 weather"></td>
+                      <td id="humidity6" class="data time6 weather"></td>
+                      <td id="humidity7" class="data time7 weather"></td>
+                  </tr>
+
+                  <tr>
+                      <th>Pressure</th>
+                      <td id="pressure" class="data current weather"></td>
+                      <td id="pressure0" class="data time0 weather"></td>
+                      <td id="pressure1" class="data time1 weather"></td>
+                      <td id="pressure2" class="data time2 weather"></td>
+                      <td id="pressure3" class="data time3 weather"></td>
+                      <td id="pressure4" class="data time4 weather"></td>
+                      <td id="pressure5" class="data time5 weather"></td>
+                      <td id="pressure6" class="data time6 weather"></td>
+                      <td id="pressure7" class="data time7 weather"></td>
+                  </tr>
+
+                  <tr id="wind">
+                      <th>Wind</th>
+                      <td class="time0 weather">
+                        <p id="windDirection0" class="data"></p>
+                        <p id="windSpeed0" class="data"></p>
+                      </td>
+                      <td class="time1 weather">
+                        <p id="windDirection1" class="data"></p>
+                        <p id="windSpeed1" class="data"></p>
+                      </td>
+                      <td class="time2 weather">
+                        <p id="windDirection2" class="data"></p>
+                        <p id="windSpeed2" class="data"></p>
+                      </td>
+                      <td class="time3 weather">
+                        <p id="windDirection3" class="data"></p>
+                        <p id="windSpeed3" class="data"></p>
+                      </td>
+                      <td class="time4 weather">
+                        <p id="windDirection4" class="data"></p>
+                        <p id="windSpeed4" class="data"></p>
+                      </td>
+                      <td class="time5 weather">
+                        <p id="windDirection5" class="data"></p>
+                        <p id="windSpeed5" class="data"></p>
+                      </td>
+                      <td class="time6 weather">
+                        <p id="windDirection6" class="data"></p>
+                        <p id="windSpeed6" class="data"></p>
+                      </td>
+                      <td class="time7 weather">
+                        <p id="windDirection7" class="data"></p>
+                        <p id="windSpeed7" class="data"></p>
+                      </td>
+                  </tr>
+
+                </tbody>
+              </table>
+          </div>
+
+          <div id="images">
+
+              <p id='noCountryImageStatement' class="data"></p>
+
+              <p id='noCapitalImageStatement' class="data"></p>
+
+              <p id='imgFooter'>All images are sourced from <a target="_blank" href="https://pixabay.com/">pixabay.com</a></p>
+
+          </div>
+
+      </div>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
     <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
     <script type="application/javascript" src="libs/js/search.js"></script>
-</div>
-</body>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  </body>
 </html>
