@@ -1,40 +1,38 @@
 html,body {
   font-family: Helvetica, sans-serif;
-  height: 100%;
   margin: 0;
-}
-
-td, p {
   text-align:center;
+  height: 100%;
+  width: 100vw;
 }
 
-#fullPage {
-    display: flex;
-    flex-flow:column;
-    height: 100%;
-}
-
-#restOfPage {
-    flex: 1 1 auto;
-}
-
-#map {
-    z-index: 1;
-    flex: 1 1 auto;
-    height:100%;
-}
-
-#navBar {
-    flex: 0 1 auto;
-    display:inline-block;
+#headerDiv{
+    position:fixed;
+    z-index:3;
     width:100%;
-    justify-content:space-between;
 }
+
+select {
+    border-radius: 10px;
+}
+
+#navDiv {
+  z-index: 3;
+  width: inherit;
+}
+
+#navBar{
+  flex: 0 1 auto;
+  display: flex;
+  width:100%;
+  justify-content:center;
+}
+
 ul {
-  list-style-type: none;
-  text-align: center;
-  margin:0;
-  padding:0;
+    list-style-type: none;
+    text-align: center;
+    margin:0;
+    padding:0;
 }
 
 ul li {
@@ -42,8 +40,16 @@ ul li {
   padding: 2px;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  flex: 1 1 auto;
+}
+
 .navButton {
-  background:none;
+  background:#0362fc;
+  color: white;
   border:none;
   font: inherit;
   cursor: pointer;
@@ -51,95 +57,70 @@ ul li {
   border-radius: 5px;
 }
 
+#information {
+    max-height: 50vh;
+    width: 60vw;
+    overflow-y: auto;
+    position:fixed;
+    margin:0 auto;
+    top: 30vh;
+    left: 20vw;
+    z-index: 3;
+    background-color: LightSkyBlue;
+    border: 1px solid black;
+}
+
+#closeDiv{
+    width:100%;
+    border:none;
+}
+
 #close {
-  display:inline-block;
   float:right;
   background-color: red;
   color: white;
   font-weight: bold;
+  border-radius: 5px;
 }
 
-#information{
-  max-height: 45vh;
-  width: 60vw;
-  overflow-y: auto;
-  position:fixed;
-  margin:0 auto;
-  top: 30vh;
-  left: 20vw;
-  z-index: 3;
-  background-color: white;
-  border: 1px solid black;
+#countryFlag{
+    width:100%;
+    max-width: 300px;
 }
 
-#countryFlag {
-  width: 95%;
-  height: auto;
+.img {
+    width:100%;
+    margin: 0 auto;
+}
+
+td, tr{
+    vertical-align: middle;
 }
 
 table{
-  border: 2px solid black;
-  width: 100%;
+    width:100%;
+    padding:10px;
 }
 
-td {
-  border-top: 1px solid gray;
-}
-
-#countryFlag {
-  width:100%;
-  height:auto;
-}
-
-
-.pictures {
-  max-width: 99%;
-  max-height: 45vh;
-  display: block;
-  margin: 5px auto;
-  border: 1px solid black;
+#weatherTable td {
+    width:50%;
 }
 
 
 @media (min-width: 600px) {
 
-    #closeDiv{
-        display: none;
-    }
-
-    body {
-        width: 90vw;
-        margin: auto;
-    }
-
-    #restOfPage {
-        flex: 1 1 auto;
-        margin-bottom: 5px;
-    }
-
     #information {
-      z-index: 0;
-        float: right;
-        max-width: 30%;
-        position: static;
-        max-height: 90vh;
+        width: 30vw;
+        min-width: 350px;
+        max-width: 450px;
+        max-height: 75vh;
+        position: fixed;
+        overflow-y: auto;
+        z-index: 3;
+        margin: 0 auto;
+        top: 100px;
+        left: 100px;
+        border: 2px solid black;
     }
 
-    #map {
-        width: 67%;
-        height:100%;
-        float: left;
-        z-index: 0;
-        flex: initial;
-    }
-
-    #navDiv {
-        padding: 15px;
-        width: inherit;
-    }
-
-    #navBar {
-        display: flex;
-        justify-content: center;
-    }
 }
