@@ -108,10 +108,8 @@
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
   }).addTo(mymap);
 
-
-  var pois = [];
-  var cap = [];
   var borderCoords = [];
+  var markers = L.markerClusterGroup();
 
   function compass(angle){
     switch(true) {
@@ -355,12 +353,12 @@ $('#countryList').change(function() {
     $('.link').attr('href', '');
     $('.img').attr('src', '');
 
-    mymap.removeLayer(capMarker);
+    mymap.removeLayer(markers);
+    markers = L.markerClusterGroup();
     mymap.removeLayer(border);
-    mymap.removeLayer(poisMarkers);
-    pois.length = 0;
     borderCoords.length = 0;
-    cap.length = 0;
+
+
 
     var country = $('#countryList option:selected').text();
     var code = $('#countryList option:selected').val();
@@ -988,10 +986,11 @@ function step2(capital, currency, code) {
 
             if (result.status.name == 'ok') {
 
-                 cap.push(L.marker([result['data'][0]['lat'], result['data'][0]['lng']]).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>'));
 
-                 capMarker = L.layerGroup(cap);
-                 capMarker.addTo(mymap);
+                 var capM = L.marker(new L.LatLng(result['data'][0]['lat'], result['data'][0]['lng'])).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
+
+                 markers.addLayer(capM);
+                 mymap.addLayer(markers);
 
             }
         },
@@ -1017,14 +1016,11 @@ function step2(capital, currency, code) {
                 for(var i = 0; i < result['data'].length; i++){
                     if (result['data'][i]['title'] != capital) {
 
-                        pois.push(L.marker([result['data'][i]['lat'], result['data'][i]['lng']]).bindPopup('<h6>' + result['data'][i]['title'] + '</h6><p>'+ result['data'][i]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][i]['wikipediaUrl'] +'">read more</a></p>'));
+                        var marker = L.marker(new L.LatLng(result['data'][i]['lat'], result['data'][i]['lng'])).bindPopup('<h6>' + result['data'][i]['title'] + '</h6><p>'+ result['data'][i]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][i]['wikipediaUrl'] +'">read more</a></p>');
 
-                    }
+                        markers.addLayer(marker);
+                        mymap.addLayer(markers);                    }
                 }
-
-                poisMarkers = L.layerGroup(pois);
-                poisMarkers.addTo(mymap);
-
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
