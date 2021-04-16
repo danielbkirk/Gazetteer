@@ -2,7 +2,7 @@
 
 	$executionStartTime = microtime(true) / 1000;
 
-	$url='https://newsapi.org/v2/top-headlines?language=en&q='.$_REQUEST['capital'].'&country='.$_REQUEST['countryCode'].'&apiKey=dbc8776e189f4a9f9c056f5019f88290';
+	$url='http://api.geonames.org/wikipediaSearchJSON?formatted=true&lang=en&q=primary+urban+areas&countryCode='.$_REQUEST['code'].'&maxRows=20&username=dankirk&style=full';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -19,7 +19,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "mission saved";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['article'] = $decode['articles'];
+	$output['data'] = $decode['geonames'];
 
 	header('Content-Type: application/json; charset=UTF-8');
 

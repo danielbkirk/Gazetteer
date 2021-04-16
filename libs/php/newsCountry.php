@@ -2,7 +2,7 @@
 
 	$executionStartTime = microtime(true) / 1000;
 
-	$url='https://newsapi.org/v2/top-headlines?language=en&country='.$_REQUEST['countryCode'].'&apiKey=dbc8776e189f4a9f9c056f5019f88290';
+	$url='https://newsapi.org/v2/top-headlines?language=en&q='.$_REQUEST['country'].'&apiKey=dbc8776e189f4a9f9c056f5019f88290';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
