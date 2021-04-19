@@ -108,6 +108,9 @@
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
   }).addTo(mymap);
 
+  mymap.setMaxBounds([[-90,-180],[90,180]]);
+  mymap.setMinZoom(3);
+
   var borderCoords = [];
   var markers = L.markerClusterGroup();
 
