@@ -6,7 +6,7 @@
 
     // get country border feature
 
-    $countryBorders = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] .'/libs/js/$countryBorders.geo.json'), true);
+    $countryBorders = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] .'/vendor/json/countryBorders.geo.json'), true);
 
     $border = null;
 
