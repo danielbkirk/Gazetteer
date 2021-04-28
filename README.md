@@ -1,2 +1,3 @@
 # Gazetteer
 Using Geo Locator to obtain the users location and return a map which shows the country the user is in with a border around the country. Also by using verious API's it is able to return other information such as: capital city, currency, current exchange rates, latest news articles, wiki links, images of the country and capital city current and forecasted weather.
+They are also presented with a drop down menu wich is populated with countries of the world which the user is able to select. When a new country is selected all the information about the previous country is replaced with information on the country sleected as well as moving the map top show the border and markers within that country.
