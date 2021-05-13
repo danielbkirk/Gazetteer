@@ -6,6 +6,52 @@ html,body {
   width: 100vw;
 }
 
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fff;
+}
+
+#preloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #f2f2f2;
+  border-top: 6px solid #56829e;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
+  }
+
+  @-webkit-keyframes animate-preloader {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+      }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+    @keyframes animate-preloader {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+        }
+      }
+
 #headerDiv{
     position:fixed;
     z-index:3;
@@ -13,7 +59,7 @@ html,body {
 }
 
 select {
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 #navDiv {
@@ -56,7 +102,7 @@ ul li {
   padding: 3px;
   border-radius: 5px;
 }
-
+/*
 #information {
     max-height: 50vh;
     width: 60vw;
@@ -70,19 +116,7 @@ ul li {
     border: 1px solid black;
 }
 
-#closeDiv{
-    width:100%;
-    border:none;
-}
-
-#close {
-  float:right;
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-}
-
+*/
 #countryFlag{
     width:100%;
     max-width: 300px;
@@ -95,20 +129,66 @@ ul li {
 
 td, tr{
     vertical-align: middle;
+    color: white;
 }
-
+/*
+tr:nth-child( 2n ) td { background-color: #3076f0; }
+*/
 table{
     width:100%;
     padding:10px;
 }
 
-#weatherTable td {
-    width:50%;
+#countryWikiLink{
+    color:white;
 }
 
 
-@media (min-width: 600px) {
+.btn{
+        border-radius: 100%;
+        padding:10px;
+}
 
+.weatherIcon{
+    width: 40px;
+    height: 40px;
+}
+
+a {
+    color:white;
+}
+ a:hover{
+     text-decoration: underline;
+ }
+
+.closeDiv{
+    padding: 5px;
+}
+
+.btn-close{
+    padding: 10px;
+    background-color: red;
+}
+
+.modal{
+    color: white;
+}
+
+.modal-title{
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+.modal-body{
+    padding: 0;
+}
+
+.link{
+    text-decoration: none;
+}
+
+@media (min-width: 600px) {
+/*
     #information {
         width: 30vw;
         min-width: 350px;
@@ -121,6 +201,27 @@ table{
         top: 100px;
         left: 100px;
         border: 2px solid black;
+    }
+*/
+
+    #countryModalDialog{
+
+    }
+
+    #newsModalDialog{
+
+    }
+
+    #exchangeModalDialog{
+
+    }
+
+    #imagesModalDialog{
+
+    }
+
+    #weatherModalDialog{
+
     }
 
 }
