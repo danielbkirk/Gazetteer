@@ -4,19 +4,19 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Country Information</title>
-    <meta name="description" content="Information on country that the user is in">
+    <title>Gazetteer</title>
+    <meta name="description" content="Initally shows information and a map about the country the user is currently in, with the option to selecet another country display information about the selected country.">
     <meta name="author" content="Daniel Kirk">
 
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"/>
 
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
-    <script src="vendor/leaflet/leaflet.js"></script>
+
 
     <link rel="stylesheet" href="vendor/leaflet/Leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="vendor/leaflet/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
-    <script src="vendor/leaflet/Leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="vendor/leaflet/Leaflet.ExtraMarkers/css/leaflet.extra-markers.min.css"/>
 
     <link rel="stylesheet" href="libs/css/style.css"/>
 
@@ -27,15 +27,41 @@
           <div id="navDiv">
               <nav id="navBar">
                   <ul>
-                      <li><button class="navButton" id="countryInfoNav">Country Information</button></li>
 
-                      <li><button class="navButton" id="newsNav">News</button></li>
+                      <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#countryModal" data-bs-placement="bottom" title="Country Information">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-info" viewBox="0 0 16 16">
+                              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                          </svg>
+                      </button></li>
 
-                      <li><button class="navButton" id="exchangeRatesNav">Exchange Rates</button></li>
+                      <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newsModal" data-bs-placement="bottom" title="News">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                              <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z"/>
+                              <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z"/>
+                          </svg>
+                      </button></li>
 
-                      <li><button class="navButton" id="weatherNav">Weather Forecast</button></li>
+                      <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exchangeModal" data-bs-placement="bottom" title="Exchange Rate">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+                              <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                              <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+                          </svg>
+                      </button></li>
 
-                      <li><button class="navButton" id="imageNav">Images</button></li>
+                      <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#weatherModal" data-bs-placement="bottom" title="Weather">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-thermometer-sun" viewBox="0 0 16 16">
+                              <path d="M5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585A1.5 1.5 0 0 1 5 12.5z"/>
+                              <path d="M1 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM3.5 1A1.5 1.5 0 0 0 2 2.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0L5 10.486V2.5A1.5 1.5 0 0 0 3.5 1zm5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm4.243 1.757a.5.5 0 0 1 0 .707l-.707.708a.5.5 0 1 1-.708-.708l.708-.707a.5.5 0 0 1 .707 0zM8 5.5a.5.5 0 0 1 .5-.5 3 3 0 1 1 0 6 .5.5 0 0 1 0-1 2 2 0 0 0 0-4 .5.5 0 0 1-.5-.5zM12.5 8a.5.5 0 0 1 .5-.5h1a.5.5 0 1 1 0 1h-1a.5.5 0 0 1-.5-.5zm-1.172 2.828a.5.5 0 0 1 .708 0l.707.708a.5.5 0 0 1-.707.707l-.708-.707a.5.5 0 0 1 0-.708zM8.5 12a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
+                          </svg>
+                      </button></li>
+
+                      <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagesModal" data-bs-placement="bottom" title="Images">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-camera2" viewBox="0 0 16 16">
+                              <path d="M5 8c0-1.657 2.343-3 4-3V4a4 4 0 0 0-4 4z"/>
+                              <path d="M12.318 3h2.015C15.253 3 16 3.746 16 4.667v6.666c0 .92-.746 1.667-1.667 1.667h-2.015A5.97 5.97 0 0 1 9 14a5.972 5.972 0 0 1-3.318-1H1.667C.747 13 0 12.254 0 11.333V4.667C0 3.747.746 3 1.667 3H2a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1h.682A5.97 5.97 0 0 1 9 2c1.227 0 2.367.368 3.318 1zM2 4.5a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0zM14 8A5 5 0 1 0 4 8a5 5 0 0 0 10 0z"/>
+                          </svg>
+                          <i class="bi bi-camera"></i>
+                      </button></li>
 
                   </ul>
               </nav>
@@ -51,280 +77,341 @@
       <div id="map">
       </div>
 
-      <div id="information">
-          <table id="closeDiv">
-              <tr><td><button id="close"><img src="vendor/bootstrap/svgs/x-circle.svg"></img></button></td></tr>
-          </table>
+      <div class="modal fade" id="countryModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="countryModalDialog">
+              <div class="modal-content p-0 mb-0 bg-primary bg-gradient ">
+                  <div class="text-end closeDiv">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-header text-white">
+                      <h5 class="modal-title" id="staticBackdropLabel">Country Information</h5>
+                  </div>
+                  <div class="modal-body ">
 
-          <div id="countryInfoDiv">
-            <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <td colspan="2"><img id="countryFlag" src="" alt="Country Flag"/></td>
-                </tr>
+                      <table class="table table-striped ">
+                          <tbody>
+                            <tr>
+                              <td colspan="2"><img id="countryFlag" src="" alt="Country Flag"/></td>
+                            </tr>
 
-                <tr>
-                  <td id="country" class="data"></td>
-                  <td id="countryCode" class="data"></td>
-                </tr>
+                            <tr>
+                              <td id="country" class="text-start data"></td>
+                              <td id="countryCode" class="data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Capital City:</td>
-                  <td class="capitalCity data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start bd-indego-400">Capital City:</td>
+                              <td class="capitalCity data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Population:</td>
-                  <td id="population" class="data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start">Population:</td>
+                              <td id="population" class="data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Continent:</td>
-                  <td id="continent" class="data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start">Continent:</td>
+                              <td id="continent" class="data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Currency:</td>
-                  <td class="currencyName data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start">Currency:</td>
+                              <td class="currencyName data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Calling Code:</td>
-                  <td id="callingCode" class="data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start">Calling Code:</td>
+                              <td id="callingCode" class="data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td>Main Language:</td>
-                  <td id="languageSpoken" class="data"></td>
-                </tr>
+                            <tr>
+                              <td class="text-start">Main Language:</td>
+                              <td id="languageSpoken" class="data text-end"></td>
+                            </tr>
 
-                <tr>
-                  <td colspan="2"><span id="countryWikiSummary" class="data" ></span> To read more click <a id="countryWikiLink" target="_blank" class="link" href="">here.</a></td>
-                </tr>
+                            <tr>
+                              <td colspan="2"><span id="countryWikiSummary" class="data" ></span> <a id="countryWikiLink" target="_blank" class="link" href="">...</a></td>
+                            </tr>
 
-              </tbody>
-            </table>
+                          </tbody>
+                        </table>
+                  </div>
+
+              </div>
           </div>
-
-          <div id="newsDiv">
-            <table id="countryNewsTable" class="table table-striped">
-              <tr>
-                <td>
-                    <h6 id="countryNewsTitle" class="data countryNews"></h6>
-                    <p id="countryNewsContent" class="data countryNews"></p>
-                    <p class="countryNews">To read more click <a id="countryNewsLink" class="link" target="_blank" href="">here!</a> </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                    <h6 id="capitalNewsTitle" class="data capitalNews"></h6>
-                    <p id="capitalNewsContent" class="data capitalNews"></p>
-                    <p class="capitalNews">To read more click <a id="capitalNewsLink" class="link" target="_blank" href="">here!</a> </p>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                    <h6 id="covidNewsTitle" class="data covidNews"></h6>
-                    <p id="covidNewsContent" class="data covidNews"></p>
-                    <p class="covidNews">To read more click <a id="covidNewsLink" class="link" target="_blank" href="">here!</a> </p>
-                </td>
-              </tr>
-
-            </table>
-          </div>
-
-          <div id="exchangeRateDiv">
-            <table class="table table-striped">
-                <tr id="currencyExchangeDescription">
-                    <td>
-                        The currency here is the <span class="currencyName data"></span>, <span id="currencyCode" class="data"></span>, and the symbol is <span class="currencySymbol data"></span>.
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <span class="currencySymbol data"></span>1 is equivilent to:
-                    </td>
-                </tr>
-
-                <tr id="usdExchangeRate">
-                    <td>
-                        USD  $<span id="usdRate" class="data"></span>
-                    </td>
-                </tr>
-
-                <tr id="gbpExchangeRate">
-                    <td>
-                        GBP  £<span id="gbpRate" class="data"></span>
-                    </td>
-                </tr>
-
-                <tr id="eurExchangeRate">
-                    <td>
-                        EUR  €<span id="eurRate" class="data"></span>
-                    </td>
-                </tr>
-
-                <tr id="jpyExchangeRate">
-                    <td>
-                        JPY  &#165;<span id="jpyRate" class="data"></span>
-                    </td>
-                </tr>
-            </table>
-          </div>
-
-          <div id="weatherDiv">
-              <div><h5><b>Weather in <span class="capitalCity data"></span>.</b></h5></div>
-              <select id='time' name='time'>
-                  <option value="current" id="current">Current</option>
-                  <option value="time0" id="time0"></option>
-                  <option value="time1" id="time1"></option>
-                  <option value="time2" id="time2"></option>
-                  <option value="time3" id="time3"></option>
-                  <option value="time4" id="time4"></option>
-                  <option value="time5" id="time5"></option>
-                  <option value="time6" id="time6"></option>
-                  <option value="time7" id="time7"></option>
-              </select>
-
-              <table id="weatherTable" class="table table-striped">
-                <tbody>
-                  <tr>
-                      <th>Weather</th>
-                      <td id="currentWeatherType" class="data current weather"></td>
-                      <td id="weatherType0" class="data time0 weather"></td>
-                      <td id="weatherType1" class="data time1 weather"></td>
-                      <td id="weatherType2" class="data time2 weather"></td>
-                      <td id="weatherType3" class="data time3 weather"></td>
-                      <td id="weatherType4" class="data time4 weather"></td>
-                      <td id="weatherType5" class="data time5 weather"></td>
-                      <td id="weatherType6" class="data time6 weather"></td>
-                      <td id="weatherType7" class="data time7 weather"></td>
-                  </tr>
-
-                  <tr>
-                      <th>Temperature</th>
-                      <td id="currentTemp" class="data current weather"></td>
-                      <td id="forecastTemp0" class="data time0 weather"></td>
-                      <td id="forecastTemp1" class="data time1 weather"></td>
-                      <td id="forecastTemp2" class="data time2 weather"></td>
-                      <td id="forecastTemp3" class="data time3 weather"></td>
-                      <td id="forecastTemp4" class="data time4 weather"></td>
-                      <td id="forecastTemp5" class="data time5 weather"></td>
-                      <td id="forecastTemp6" class="data time6 weather"></td>
-                      <td id="forecastTemp7" class="data time7 weather"></td>
-                  </tr>
-
-                  <tr>
-                      <th>Min/Max Temperature</th>
-                      <td class="current weather"><span id="currentMinTemp" class="data"></span>/<span id="currentMaxTemp" class="data"></span></td>
-                      <td class="time0 weather"><span id="forecastMin0" class="data"></span>/<span id="forecastMax0" class="data"></span></td>
-                      <td class="time1 weather"><span id="forecastMin1" class="data"></span>/<span id="forecastMax1" class="data"></span></td>
-                      <td class="time2 weather"><span id="forecastMin2" class="data"></span>/<span id="forecastMax2" class="data"></span></td>
-                      <td class="time3 weather"><span id="forecastMin3" class="data"></span>/<span id="forecastMax3" class="data"></span></td>
-                      <td class="time4 weather"><span id="forecastMin4" class="data"></span>/<span id="forecastMax4" class="data"></span></td>
-                      <td class="time5 weather"><span id="forecastMin5" class="data"></span>/<span id="forecastMax5" class="data"></span></td>
-                      <td class="time6 weather"><span id="forecastMin6" class="data"></span>/<span id="forecastMax6" class="data"></span></td>
-                      <td class="time7 weather"><span id="forecastMin7" class="data"></span>/<span id="forecastMax7" class="data"></span></td>
-                  </tr>
-
-                  <tr>
-                      <th>Feels Like</th>
-                      <td id="feelsTemp" class="data current weather"></td>
-                      <td id="feelsTemp0" class="data time0 weather"></td>
-                      <td id="feelsTemp1" class="data time1 weather"></td>
-                      <td id="feelsTemp2" class="data time2 weather"></td>
-                      <td id="feelsTemp3" class="data time3 weather"></td>
-                      <td id="feelsTemp4" class="data time4 weather"></td>
-                      <td id="feelsTemp5" class="data time5 weather"></td>
-                      <td id="feelsTemp6" class="data time6 weather"></td>
-                      <td id="feelsTemp7" class="data time7 weather"></td>
-                  </tr>
-
-                  <tr>
-                      <th>Humidity</th>
-                      <td id="humidity" class="data current weather"></td>
-                      <td id="humidity0" class="data time0 weather"></td>
-                      <td id="humidity1" class="data time1 weather"></td>
-                      <td id="humidity2" class="data time2 weather"></td>
-                      <td id="humidity3" class="data time3 weather"></td>
-                      <td id="humidity4" class="data time4 weather"></td>
-                      <td id="humidity5" class="data time5 weather"></td>
-                      <td id="humidity6" class="data time6 weather"></td>
-                      <td id="humidity7" class="data time7 weather"></td>
-                  </tr>
-
-                  <tr>
-                      <th>Pressure</th>
-                      <td id="pressure" class="data current weather"></td>
-                      <td id="pressure0" class="data time0 weather"></td>
-                      <td id="pressure1" class="data time1 weather"></td>
-                      <td id="pressure2" class="data time2 weather"></td>
-                      <td id="pressure3" class="data time3 weather"></td>
-                      <td id="pressure4" class="data time4 weather"></td>
-                      <td id="pressure5" class="data time5 weather"></td>
-                      <td id="pressure6" class="data time6 weather"></td>
-                      <td id="pressure7" class="data time7 weather"></td>
-                  </tr>
-
-                  <tr id="wind">
-                      <th>Wind</th>
-                      <td class="time0 weather">
-                        <p id="windDirection0" class="data"></p>
-                        <p id="windSpeed0" class="data"></p>
-                      </td>
-                      <td class="time1 weather">
-                        <p id="windDirection1" class="data"></p>
-                        <p id="windSpeed1" class="data"></p>
-                      </td>
-                      <td class="time2 weather">
-                        <p id="windDirection2" class="data"></p>
-                        <p id="windSpeed2" class="data"></p>
-                      </td>
-                      <td class="time3 weather">
-                        <p id="windDirection3" class="data"></p>
-                        <p id="windSpeed3" class="data"></p>
-                      </td>
-                      <td class="time4 weather">
-                        <p id="windDirection4" class="data"></p>
-                        <p id="windSpeed4" class="data"></p>
-                      </td>
-                      <td class="time5 weather">
-                        <p id="windDirection5" class="data"></p>
-                        <p id="windSpeed5" class="data"></p>
-                      </td>
-                      <td class="time6 weather">
-                        <p id="windDirection6" class="data"></p>
-                        <p id="windSpeed6" class="data"></p>
-                      </td>
-                      <td class="time7 weather">
-                        <p id="windDirection7" class="data"></p>
-                        <p id="windSpeed7" class="data"></p>
-                      </td>
-                  </tr>
-
-                </tbody>
-              </table>
-          </div>
-
-          <div id="images">
-
-              <p id='noCountryImageStatement' class="data"></p>
-
-              <p id='noCapitalImageStatement' class="data"></p>
-
-              <p id='imgFooter'>All images are sourced from <a target="_blank" href="https://pixabay.com/">pixabay.com</a></p>
-
-          </div>
-
       </div>
 
-    <script type="application/javascript" src="vendor/jquery/jquery-2.2.3.min.js"></script>
+      <div class="modal fade" id="newsModal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="newsModalDialog">
+              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
+                  <div class="text-end closeDiv">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">News Reports</h5>
+                  </div>
+                  <div class="modal-body">
 
-    <script type="application/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <table id="countryNewsTable" class="table table-striped">
+                      <tr>
+                        <td>
+                            <h6 id="countryNewsTitle" class="countryNews">
+                              <a id="countryNewsLink" class="link data" target="_blank" href=""></a>
+                            </h6>
+                            <p id="countryNewsContent" class="data countryNews"></p>
+                            <!--
+                            <p class="countryNews">To read more click <a id="countryNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                            <h6 id="capitalNewsTitle" class="capitalNews">
+                              <a id="capitalNewsLink" class="link data" target="_blank" href=""></a>
+                            </h6>
+                            <p id="capitalNewsContent" class="data capitalNews"></p>
+                            <!--
+                            <p class="capitalNews">To read more click <a id="capitalNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                            <h6 id="covidNewsTitle" class="covidNews">
+                              <a id="covidNewsLink data" class="link" target="_blank" href=""></a>
+                            </h6>
+                            <p id="covidNewsContent" class="data covidNews"></p>
+                            <!--
+                            <p class="covidNews">To read more click <a id="covidNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
+                        </td>
+                      </tr>
+
+                    </table>
+
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="exchangeModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" id="exchangeModalDialog">
+              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
+                  <div class="text-end closeDiv">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Exchange Rates</h5>
+                  </div>
+                  <div class="modal-body">
+
+                    <table class="table">
+                        <tr id="currencyExchangeDescription">
+                            <td>
+                                The currency here is the <span class="currencyName data"></span>, <span id="currencyCode" class="data"></span>, and the symbol is <span class="currencySymbol data"></span>.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="currencySymbol data"></span>1 is equivilent to:
+                            </td>
+                        </tr>
+
+                        <tr id="usdExchangeRate">
+                            <td>
+                                USD  $<span id="usdRate" class="data"></span>
+                            </td>
+                        </tr>
+
+                        <tr id="gbpExchangeRate">
+                            <td>
+                                GBP  £<span id="gbpRate" class="data"></span>
+                            </td>
+                        </tr>
+
+                        <tr id="eurExchangeRate">
+                            <td>
+                                EUR  €<span id="eurRate" class="data"></span>
+                            </td>
+                        </tr>
+
+                        <tr id="jpyExchangeRate">
+                            <td>
+                                JPY  &#165;<span id="jpyRate" class="data"></span>
+                            </td>
+                        </tr>
+                    </table>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+
+      <div class="modal fade" id="imagesModal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="imagesModalDialog">
+              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
+                  <div class="text-end closeDiv">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Images of <span id = "country" ></span></h5>
+                  </div>
+                  <div class="modal-body">
+
+                          <p id='noCountryImageStatement' class="data"></p>
+
+                          <p id='noCapitalImageStatement' class="data"></p>
+
+                          <p id='imgFooter'>All images are sourced from <a target="_blank" href="https://pixabay.com/">pixabay.com</a></p>
+
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="weatherModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="weatherModalDialog">
+              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
+                  <div class="text-end closeDiv">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-header">
+                      <h5 class="modal-title " id="staticBackdropLabel">Weather in <span class = "capitalCity"></span> </h5>
+                  </div>
+                  <div class="modal-body">
+                      <div class="container">
+                          <div class="row">
+                              <div class="row">
+                                  <h5>Today</h5>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col">
+                                      <img id="weatherIcon0" src=""/>
+                                  </div>
+
+                                  <div class="col">
+                                      <div class="row">
+                                          <span id="highTemp0"></span>
+                                      </div>
+                                      <div class="row">
+                                          <span id="lowTemp0"></span>
+                                      </div>
+                                  </div>
+
+                                  <div class="col">
+                                      <span id="weatherDescription"></span>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col">
+                                  <div class="row">
+                                      <span id="day1"></span>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col">
+                                          <img id="weatherIcon1" class="weatherIcon" src=""/>
+                                      </div>
+                                      <div class="col">
+                                          <div class="row">
+                                              <span id="highTemp1"></span>
+                                          </div>
+                                          <div class="row">
+                                              <span id="lowTemp1"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col">
+                                  <div class="row">
+                                      <span id="day2"></span>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col">
+                                          <img id="weatherIcon2" class="weatherIcon" src=""/>
+                                      </div>
+                                      <div class="col">
+                                          <div class="row">
+                                              <span id="highTemp2"></span>
+                                          </div>
+                                          <div class="row">
+                                              <span id="lowTemp2"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col">
+                                  <div class="row">
+                                      <span id="day3"></span>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col">
+                                          <img id="weatherIcon3" class="weatherIcon" src=""/>
+                                      </div>
+                                      <div class="col">
+                                          <div class="row">
+                                              <span id="highTemp3"></span>
+                                          </div>
+                                          <div class="row">
+                                              <span id="lowTemp3"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col">
+                                  <div class="row">
+                                      <span id="day4"></span>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col">
+                                          <img id="weatherIcon4" class="weatherIcon" src=""/>
+                                      </div>
+                                      <div class="col">
+                                          <div class="row">
+                                              <span id="highTemp4"></span>
+                                          </div>
+                                          <div class="row">
+                                              <span id="lowTemp4"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+      <div id='preloader'></div>
+
+      <script type="application/javascript" src="vendor/jquery/jquery-2.2.3.min.js"></script>
+
+      <script src="vendor/leaflet/leaflet.js"></script>
+
+      <script src="vendor/leaflet/Leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+      <script src="vendor/leaflet/Leaflet.ExtraMarkers/js/leaflet.extra-markers.min.js"></script>
+
+
+
+    <script type="application/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"> </script>
 
     <script type="application/javascript" src="libs/js/script.js"></script>
+
+
   </body>
 </html>
