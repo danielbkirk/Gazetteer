@@ -15,11 +15,34 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   $('#noCountryImageStatement').css('display', 'none');
   $('#noCapitalImageStatement').css('display', 'none');
 
+  var WSM = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+  });
+
+  var TFL = L.tileLayer('https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey={apikey}', {
+  	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  	apikey: '<your apikey>',
+  	maxZoom: 22
+  });
+
+  var OSM = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+
   var map = document.getElementById("map");
-  var mymap = L.map('map');
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-  }).addTo(mymap);
+  var mymap = L.map('map',{
+      layers: [WSM]
+  });
+
+  var baseMaps = {
+      "World Street Map": WSM,
+      "Dutch": OSM,
+      "Forest": TFL
+  };
+
+  L.control.layers(baseMaps).addTo(mymap);
 
   mymap.setMaxBounds([[-90,-180],[90,180]]);
   mymap.setMinZoom(3);
@@ -44,13 +67,19 @@ function population(n){
 }
 
 var capitalMarkerIcon = L.ExtraMarkers.icon({
-    icon: 'fa-coffee',
-    markerColor: 'red',
-    shape: 'square',
-    prefix: 'fa'
+    icon: 'bi bi-star-fill',
+    markerColor: 'yellow',
+    shape: 'star',
+    prefix: 'bi'
 });
 
-L.marker([51.941196,4.512291], {icon: capitalMarkerIcon}).addTo(mymap);
+var markerIcon= L.ExtraMarkers.icon({
+    icon: 'bi bi-question-lg',
+    markerColor: 'cyan',
+    shape: 'star',
+    prefix: 'bi'
+});
+
 
 //fill <option>'s in <select>
 $.ajax({
@@ -628,7 +657,7 @@ function step2(capital, currency, code) {
                 var capLat = result['data'][0]['lat'];
                 var capLng = result['data'][0]['lng'];
 
-                 var capM = L.marker(new L.LatLng(capLat, capLng)).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
+                 var capM = L.marker(new L.LatLng(capLat, capLng), {icon: capitalMarkerIcon}).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
 
                  markers.addLayer(capM);
                  mymap.addLayer(markers);
@@ -658,7 +687,7 @@ function step2(capital, currency, code) {
                 for(var i = 0; i < result['data'].length; i++){
                     if (result['data'][i]['title'] != capital) {
 
-                        var marker = L.marker(new L.LatLng(result['data'][i]['lat'], result['data'][i]['lng'])).bindPopup('<h6>' + result['data'][i]['title'] + '</h6><p>'+ result['data'][i]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][i]['wikipediaUrl'] +'">read more</a></p>');
+                        var marker = L.marker(new L.LatLng(result['data'][i]['lat'], result['data'][i]['lng']), {icon: markerIcon}).bindPopup('<h6>' + result['data'][i]['title'] + '</h6><p>'+ result['data'][i]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][i]['wikipediaUrl'] +'">read more</a></p>');
 
                         markers.addLayer(marker);
                         mymap.addLayer(markers);
