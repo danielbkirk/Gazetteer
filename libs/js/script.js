@@ -15,6 +15,20 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   $('#noCountryImageStatement').css('display', 'none');
   $('#noCapitalImageStatement').css('display', 'none');
 
+  var capitalMarkerIcon = L.ExtraMarkers.icon({
+      icon: 'bi bi-star-fill',
+      markerColor: 'yellow',
+      shape: 'star',
+      prefix: 'bi'
+  });
+
+  var markerIcon= L.ExtraMarkers.icon({
+      icon: 'bi bi-question-lg',
+      markerColor: 'cyan',
+      shape: 'star',
+      prefix: 'bi'
+  });
+
   var WSM = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
   });
@@ -36,19 +50,29 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       layers: [WSM]
   });
 
-  var baseMaps = {
+  var baseLayers = {
       "World Street Map": WSM,
       "Dutch": OSM,
       "Forest": TFL
   };
 
-  L.control.layers(baseMaps).addTo(mymap);
+  var borderCoords = [];
+  var markers = L.markerClusterGroup();
+
+  var testMarker = L.marker([51.941196,4.512291], {icon: capitalMarkerIcon});
+
+  var overlays = {
+      "Markers": markers,
+      "Test": testMarker,
+
+  };
+
+  layerControl = L.control.layers(baseLayers, overlays).addTo(mymap);
 
   mymap.setMaxBounds([[-90,-180],[90,180]]);
   mymap.setMinZoom(3);
 
-  var borderCoords = [];
-  var markers = L.markerClusterGroup();
+
 
   function twoDecimals(n) {
   var log10 = n ? Math.floor(Math.log10(n)) : 0,
@@ -66,19 +90,6 @@ function population(n){
     }
 }
 
-var capitalMarkerIcon = L.ExtraMarkers.icon({
-    icon: 'bi bi-star-fill',
-    markerColor: 'yellow',
-    shape: 'star',
-    prefix: 'bi'
-});
-
-var markerIcon= L.ExtraMarkers.icon({
-    icon: 'bi bi-question-lg',
-    markerColor: 'cyan',
-    shape: 'star',
-    prefix: 'bi'
-});
 
 
 //fill <option>'s in <select>
@@ -469,6 +480,8 @@ function step2(capital, currency, code) {
 
             if (result.status.name == 'ok') {
 
+
+
                 switch(currency) {
                     case "USD":
 
@@ -526,6 +539,8 @@ function step2(capital, currency, code) {
                         $('#jpyRate').html(twoDecimals(parseFloat(result['response']['rates']['JPY'])));
                         break;
                 }
+
+                $('<tr><td>Test to see if this inserts correctly</td></tr>').insertAfter($('#currencyExchangeDescription'));
 
             }
         },
@@ -660,7 +675,9 @@ function step2(capital, currency, code) {
                  var capM = L.marker(new L.LatLng(capLat, capLng), {icon: capitalMarkerIcon}).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
 
                  markers.addLayer(capM);
+                 markers.addLayer(testMarker);
                  mymap.addLayer(markers);
+                 layerControl.addOverlay(capM, "Capital City");
 
                  weatherRequest(capLat, capLng);
             }
