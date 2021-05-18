@@ -59,15 +59,11 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   var borderCoords = [];
   var markers = L.markerClusterGroup();
 
-  var testMarker = L.marker([51.941196,4.512291], {icon: capitalMarkerIcon});
-
   var overlays = {
       "Markers": markers,
-      "Test": testMarker,
-
   };
 
-  layerControl = L.control.layers(baseLayers, overlays).addTo(mymap);
+  layerControl = L.control.layers(baseLayers, overlays, {position:'bottomright'}).addTo(mymap);
 
   mymap.setMaxBounds([[-90,-180],[90,180]]);
   mymap.setMinZoom(3);
@@ -195,6 +191,7 @@ $('#countryList').change(function() {
     markers = L.markerClusterGroup();
     mymap.removeLayer(border);
     borderCoords.length = 0;
+    layerControl.removeLayer(capM);
 
 
 
@@ -672,10 +669,9 @@ function step2(capital, currency, code) {
                 var capLat = result['data'][0]['lat'];
                 var capLng = result['data'][0]['lng'];
 
-                 var capM = L.marker(new L.LatLng(capLat, capLng), {icon: capitalMarkerIcon}).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
+                 capM = L.marker(new L.LatLng(capLat, capLng), {icon: capitalMarkerIcon}).bindPopup('<h6>' + result['data'][0]['title'] + '</h6><p>'+ result['data'][0]['summary'].substring(0, 200) +'... <a target="_blank" href="https://' + result['data'][0]['wikipediaUrl'] +'">read more</a></p>');
 
                  markers.addLayer(capM);
-                 markers.addLayer(testMarker);
                  mymap.addLayer(markers);
                  layerControl.addOverlay(capM, "Capital City");
 
