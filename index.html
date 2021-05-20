@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css"/>
 
+    <link rel = "stylesheet" href="vendor/bootstrap/node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
 
 
@@ -42,10 +44,9 @@
                       </button></li>
 
                       <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exchangeModal" data-bs-placement="bottom" title="Exchange Rate">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
-                              <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-                              <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
-                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-currency-exchange" viewBox="0 0 16 16">
+                              <path d="M0 5a5.002 5.002 0 0 0 4.027 4.905 6.46 6.46 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05c0-.046 0-.093.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.46 3.46 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98c-.003.046-.003.097-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5zm16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0zm-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787H8.25zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674l.077.018z"/>
+                            </svg>
                       </button></li>
 
                       <li><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#weatherModal" data-bs-placement="bottom" title="Weather">
@@ -60,7 +61,6 @@
                               <path d="M5 8c0-1.657 2.343-3 4-3V4a4 4 0 0 0-4 4z"/>
                               <path d="M12.318 3h2.015C15.253 3 16 3.746 16 4.667v6.666c0 .92-.746 1.667-1.667 1.667h-2.015A5.97 5.97 0 0 1 9 14a5.972 5.972 0 0 1-3.318-1H1.667C.747 13 0 12.254 0 11.333V4.667C0 3.747.746 3 1.667 3H2a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1h.682A5.97 5.97 0 0 1 9 2c1.227 0 2.367.368 3.318 1zM2 4.5a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0zM14 8A5 5 0 1 0 4 8a5 5 0 0 0 10 0z"/>
                           </svg>
-                          <i class="bi bi-camera"></i>
                       </button></li>
 
                   </ul>
@@ -95,7 +95,7 @@
                             </tr>
 
                             <tr>
-                              <td id="country" class="text-start data"></td>
+                              <td class="country text-start data"></td>
                               <td id="countryCode" class="data text-end"></td>
                             </tr>
 
@@ -159,8 +159,6 @@
                               <a id="countryNewsLink" class="link data" target="_blank" href=""></a>
                             </h6>
                             <p id="countryNewsContent" class="data countryNews"></p>
-                            <!--
-                            <p class="countryNews">To read more click <a id="countryNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
                         </td>
                       </tr>
 
@@ -170,19 +168,15 @@
                               <a id="capitalNewsLink" class="link data" target="_blank" href=""></a>
                             </h6>
                             <p id="capitalNewsContent" class="data capitalNews"></p>
-                            <!--
-                            <p class="capitalNews">To read more click <a id="capitalNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
                         </td>
                       </tr>
 
                       <tr>
                         <td>
                             <h6 id="covidNewsTitle" class="covidNews">
-                              <a id="covidNewsLink data" class="link" target="_blank" href=""></a>
+                              <a id="covidNewsLink" class="link" target="_blank" href=""></a>
                             </h6>
                             <p id="covidNewsContent" class="data covidNews"></p>
-                            <!--
-                            <p class="covidNews">To read more click <a id="covidNewsLink" class="link" target="_blank" href="">here!</a> </p> -->
                         </td>
                       </tr>
 
@@ -205,42 +199,19 @@
                   </div>
                   <div class="modal-body">
 
-                    <table class="table">
+                    <table class="table table-striped">
                         <tr id="currencyExchangeDescription">
                             <td>
                                 The currency here is the <span class="currencyName data"></span>, <span id="currencyCode" class="data"></span>, and the symbol is <span class="currencySymbol data"></span>.
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr id="baseCurrency">
                             <td>
                                 <span class="currencySymbol data"></span>1 is equivilent to:
                             </td>
                         </tr>
 
-                        <tr id="usdExchangeRate">
-                            <td>
-                                USD  $<span id="usdRate" class="data"></span>
-                            </td>
-                        </tr>
-
-                        <tr id="gbpExchangeRate">
-                            <td>
-                                GBP  £<span id="gbpRate" class="data"></span>
-                            </td>
-                        </tr>
-
-                        <tr id="eurExchangeRate">
-                            <td>
-                                EUR  €<span id="eurRate" class="data"></span>
-                            </td>
-                        </tr>
-
-                        <tr id="jpyExchangeRate">
-                            <td>
-                                JPY  &#165;<span id="jpyRate" class="data"></span>
-                            </td>
-                        </tr>
                     </table>
                   </div>
 
@@ -256,7 +227,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">Images of <span id = "country" ></span></h5>
+                      <h5 class="modal-title" id="staticBackdropLabel">Images of <span class="country" ></span> and <span class="capitalCity"></span></h5>
                   </div>
                   <div class="modal-body">
 
@@ -303,7 +274,7 @@
                                   </div>
 
                                   <div class="col">
-                                      <span id="weatherDescription"></span>
+                                      <span id="weatherDescription" class="align-middle"></span>
                                   </div>
                               </div>
                           </div>
@@ -397,6 +368,8 @@
       </div>
 
       <div id='preloader'></div>
+
+      <script rel = "stylesheet" href="vendor/bootstrap/node_modules/bootstrap-icons/font/bootstrap-icons.json"></script>
 
       <script type="application/javascript" src="vendor/jquery/jquery-2.2.3.min.js"></script>
 
