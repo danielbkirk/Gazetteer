@@ -33,11 +33,9 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
   });
 
-  var TFL = L.tileLayer('https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey={apikey}', {
-  	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  	apikey: '<your apikey>',
-  	maxZoom: 22
-  });
+  var EWTM = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+});
 
   var OSM = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
 	maxZoom: 18,
@@ -53,11 +51,11 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   var baseLayers = {
       "World Street Map": WSM,
       "Dutch": OSM,
-      "Forest": TFL
+      "Plain": EWTM
   };
 
   var borderCoords = [];
-  var markers = L.markerClusterGroup();
+  var markers = L.markerClusterGroup({maxClusterRadius: 45});
 
   var overlays = {
       "Markers": markers,
@@ -146,7 +144,7 @@ $(document).ready(function() {
 
                 if(result.status.name == 'ok') {
 
-                    $('#country').html(result['results'][0]['components']['country']);
+                    $('.country').html(result['results'][0]['components']['country']);
                     $('#countryCode').html(result['results'][0]['components']['ISO_3166-1_alpha-2']);
 
                     var iso = result['results'][0]['components']['ISO_3166-1_alpha-2'];
@@ -188,7 +186,7 @@ $('#countryList').change(function() {
     $('.img').attr('src', '');
 
     mymap.removeLayer(markers);
-    markers = L.markerClusterGroup();
+    markers = L.markerClusterGroup({maxClusterRadius: 45});
     mymap.removeLayer(border);
     borderCoords.length = 0;
     layerControl.removeLayer(capM);
@@ -198,7 +196,7 @@ $('#countryList').change(function() {
     var country = $('#countryList option:selected').text();
     var code = $('#countryList option:selected').val();
 
-    $('#country').html(country);
+    $('.country').html(country);
     $('#countryCode').html(code);
 
     step1(country, code);
@@ -229,7 +227,7 @@ function step1(country, code){
 
               borderCoords.push(L.geoJSON(result['data']['border'],{style: myStyle}));
 
-              border = L.layerGroup(borderCoords);
+              border = L.featureGroup(borderCoords);
               border.addTo(mymap);
 
               var bounds = L.geoJSON(result['data']['border']);
@@ -477,67 +475,57 @@ function step2(capital, currency, code) {
 
             if (result.status.name == 'ok') {
 
-
+                $('.exchangeRateData').remove();
 
                 switch(currency) {
                     case "USD":
 
-                            $('#usdExchangeRate').css('display', 'none');
-                            $('#gbpExchangeRate').css('display', '');
-                            $('#eurExchangeRate').css('display', '');
-                            $('#jpyExchangeRate').css('display', '');
+                        $('<tr class="exchangeRateData" ><td> JPY  &#165;' + twoDecimals(parseFloat(result['response']['rates']['JPY'])) + '</td></tr>').insertAfter($('#baseCurrency'));
 
-                            $('#gbpRate').html(twoDecimals(parseFloat(result['response']['rates']['GBP'])));
-                            $('#eurRate').html(twoDecimals(parseFloat(result['response']['rates']['EUR'])));
-                            $('#jpyRate').html(twoDecimals(parseFloat(result['response']['rates']['JPY'])));
+                        $('<tr class="exchangeRateData" ><td> EUR  €' + twoDecimals(parseFloat(result['response']['rates']['EUR'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> GBP  £' + twoDecimals(parseFloat(result['response']['rates']['GBP'])) + '</td></tr>').insertAfter($('#baseCurrency'));
 
                             break;
                     case "GBP":
 
-                        $('#usdExchangeRate').css('display', '');
-                        $('#gbpExchangeRate').css('display', 'none');
-                        $('#eurExchangeRate').css('display', '');
-                        $('#jpyExchangeRate').css('display', '');
+                        $('<tr class="exchangeRateData" ><td> JPY  &#165;' + twoDecimals(parseFloat(result['response']['rates']['JPY'])) + '</td></tr>').insertAfter($('#baseCurrency'));
 
-                        $('#usdRate').html(twoDecimals(parseFloat(result['response']['rates']['USD'])));
-                        $('#eurRate').html(twoDecimals(parseFloat(result['response']['rates']['EUR'])));
-                        $('#jpyRate').html(twoDecimals(parseFloat(result['response']['rates']['JPY'])));
+                        $('<tr class="exchangeRateData" ><td> EUR  €' + twoDecimals(parseFloat(result['response']['rates']['EUR'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> USD  $' + twoDecimals(parseFloat(result['response']['rates']['USD'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
                         break;
                     case "EUR":
-                        $('#usdExchangeRate').css('display', '');
-                        $('#gbpExchangeRate').css('display', '');
-                        $('#eurExchangeRate').css('display', 'none');
-                        $('#jpyExchangeRate').css('display', '');
 
-                        $('#usdRate').html(twoDecimals(parseFloat(result['response']['rates']['USD'])));
-                        $('#gbpRate').html(twoDecimals(parseFloat(result['response']['rates']['GBP'])));
-                        $('#jpyRate').html(twoDecimals(parseFloat(result['response']['rates']['JPY'])));
+                        $('<tr class="exchangeRateData" ><td> JPY  &#165;' + twoDecimals(parseFloat(result['response']['rates']['JPY'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> GBP  £' + twoDecimals(parseFloat(result['response']['rates']['GBP'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> USD  $' + twoDecimals(parseFloat(result['response']['rates']['USD'])) + '</td></tr>').insertAfter($('#baseCurrency'));
                         break;
 
                     case "JPY":
-                        $('#usdExchangeRate').css('display', '');
-                        $('#gbpExchangeRate').css('display', '');
-                        $('#eurExchangeRate').css('display', '');
-                        $('#jpyExchangeRate').css('display', 'none');
 
-                        $('#usdRate').html(twoDecimals(parseFloat(result['response']['rates']['USD'])));
-                        $('#gbpRate').html(twoDecimals(parseFloat(result['response']['rates']['GBP'])));
-                        $('#eurRate').html(twoDecimals(parseFloat(result['response']['rates']['EUR'])));
+                        $('<tr class="exchangeRateData" ><td> EUR  €' + twoDecimals(parseFloat(result['response']['rates']['EUR'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> GBP  £' + twoDecimals(parseFloat(result['response']['rates']['GBP'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> USD  $' + twoDecimals(parseFloat(result['response']['rates']['USD'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
                         break;
                     default:
-                        $('#usdExchangeRate').css('display', '');
-                        $('#gbpExchangeRate').css('display', '');
-                        $('#eurExchangeRate').css('display', '');
-                        $('#jpyExchangeRate').css('display', '');
+                        $('<tr class="exchangeRateData" ><td> JPY  &#165;' + twoDecimals(parseFloat(result['response']['rates']['JPY'])) + '</td></tr>').insertAfter($('#baseCurrency'));
 
-                        $('#usdRate').html(twoDecimals(parseFloat(result['response']['rates']['USD'])));
-                        $('#gbpRate').html(twoDecimals(parseFloat(result['response']['rates']['GBP'])));
-                        $('#eurRate').html(twoDecimals(parseFloat(result['response']['rates']['EUR'])));
-                        $('#jpyRate').html(twoDecimals(parseFloat(result['response']['rates']['JPY'])));
+                        $('<tr class="exchangeRateData" ><td> EUR  €' + twoDecimals(parseFloat(result['response']['rates']['EUR'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> GBP  £' + twoDecimals(parseFloat(result['response']['rates']['GBP'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
+                        $('<tr class="exchangeRateData" ><td> USD  $' + twoDecimals(parseFloat(result['response']['rates']['USD'])) + '</td></tr>').insertAfter($('#baseCurrency'));
+
                         break;
                 }
 
-                $('<tr><td>Test to see if this inserts correctly</td></tr>').insertAfter($('#currencyExchangeDescription'));
 
             }
         },
