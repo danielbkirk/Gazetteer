@@ -102,21 +102,7 @@ ul li {
   padding: 3px;
   border-radius: 5px;
 }
-/*
-#information {
-    max-height: 50vh;
-    width: 60vw;
-    overflow-y: auto;
-    position:fixed;
-    margin:0 auto;
-    top: 30vh;
-    left: 20vw;
-    z-index: 3;
-    background-color: LightSkyBlue;
-    border: 1px solid black;
-}
 
-*/
 #countryFlag{
     width:100%;
     max-width: 300px;
@@ -131,9 +117,7 @@ td, tr{
     vertical-align: middle;
     color: white;
 }
-/*
-tr:nth-child( 2n ) td { background-color: #3076f0; }
-*/
+
 table{
     width:100%;
     padding:10px;
@@ -159,6 +143,7 @@ a {
 }
  a:hover{
      text-decoration: underline;
+     color: inherit;
  }
 
 .closeDiv{
@@ -181,6 +166,7 @@ a {
 
 .modal-body{
     padding: 0;
+    max-height: 70vh;
 }
 
 .link{
