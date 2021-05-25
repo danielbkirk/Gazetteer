@@ -100,18 +100,11 @@ $.ajax({
        if(result.status.name == 'ok') {
 
            var select = document.getElementById('countryList');
-           var orderedCountires = result['data'].sort((a, b) => {
-               if (a.properties.name > b.properties.name) {
-                   return 1
-               } else {
-                   return -1
-               }
-           });
 
-           for (var i = 0; i<orderedCountires.length; i++) {
+           for (var i = 0; i<result['data'].length; i++) {
                var opt = document.createElement('option');
-               opt.value = orderedCountires[i]['properties']['iso_a2'];
-               opt.innerHTML = orderedCountires[i]['properties']['name'];
+               opt.value = result['data'][i]['code'];
+               opt.innerHTML = result['data'][i]['name'];
                select.appendChild(opt);
            }
 
@@ -278,48 +271,60 @@ function step1(country, code){
       type: 'POST',
       datatype: 'json',
       data: {
-          country: (country).replace(/ /g, '+')
+          countryCode: code
       },
       success: function (result) {
 
           console.log(result);
 
           if (result.status.name == 'ok') {
-              if(result['article'].length == 0){
 
-                  for (var i = 0; i< $('.countryNews').length; i++){
-                    $('.countryNews')[i].style.display = "none";
-                  };
+              $('.countryNews').remove();
 
-                  $('#countryNewsTitle').css('display', '');
-                  $('#countryNewsLink').html('<b>News articles for ' + $('#countryList option:selected').text() + ' could not be found.</b>');
+              if(result['article']){
+                  var len  = result['article'].length;
+                  if(len >= 5){
+                      for (i=0; i<5; i++){
 
-              } else {
-                  for(var i = 0; i< $('.countryNews').length; i++) {
-                    if ($('.countryNews')[i].style.display == "none") {
-                            $('.countryNews')[i].style.display = "";
-                      };
-                  }
+                          var summary = result['article'][i]['content'];
+                          var elip = summary.indexOf("[+");
+                          var title = result['article'][i]['title'];
+                          var newsLink = result['article'][i]['url'];
+                          var content = summary.substring(0, elip);
 
-                  var sumStr = result['article'][0]['content'];
-                  var title = result['article'][0]['title'];
-                  var newsLink = result['article'][0]['url'];
+                          if(content && title){
+                              $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                          }else if(title) {
+                              $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available</p></td></tr>');
+
+                          }
+                      }
+
+                  } else if(len > 0) {
+                      for (i=0; i<len; i++){
+
+                          var summary = result['article'][i]['content'];
+                          var elip = summary.indexOf("[+");
+                          var title = result['article'][i]['title'];
+                          var newsLink = result['article'][i]['url'];
+                          var content = summary.substring(0, elip);
+
+                          if(content && title){
+                              $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                          } else if(title) {
+                              $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available.</p></td></tr>');
+
+                          }
+                      }
+                }
+            }
 
 
-                  if(sumStr) {
-                    var elip = sumStr.indexOf('…');
-                    $('#countryNewsContent').html(sumStr.substring(0,elip+1));
-                    $('#countryNewsLink').attr('href', result['article'][0]['url']);
-                  } else {
-                    $('#countryNewsContent').html('A summary of the article is not available.');
-                    $('#countryNewsLink').attr('href', result['article'][0]['url']);
-                  }
+            else {
 
-                  if (title) {
-                      $('#countryNewsLink').html('<b>' + title + '</b>');
-                  } else {
-                      $('#countryNewsLink').html('Title unavailable')
-                  }
+                $("#newsTable").append(`<tr class="countryNews"><td><h6>News articles for `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
 
             }
           }
@@ -342,43 +347,50 @@ function step1(country, code){
           console.log(result);
 
           if (result.status.name == 'ok') {
-            if(result['article'].length == 0){
+              $('.covidNews').remove();
 
-                for (var i = 0; i< $('.covidNews').length; i++){
-                  $('.covidNews')[i].style.display = "none";
-                };
+              if(result['article']){
+                  var len  =  result['article'].length;
+                  if(len >= 5){
+                      for (i=0; i<5; i++){
 
-                $('#covidNewsTitle').css ('display', '');
-                $('#covidNewsLink').html('<b>News articles for covid in ' + $('#countryList option:selected').text() + ' could not be found.</b>');
+                          var summary = result['article'][i]['content'];
+                          var elip = summary.indexOf("[+");
+                          var title = result['article'][i]['title'];
+                          var newsLink = result['article'][i]['url'];
+                          var content = summary.substring(0, elip);
 
+                          if(content && title){
+                              $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                          }else if(title) {
+                              $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available</p></td></tr>');
+                          }
+                      }
+
+                  } else if(len > 0) {
+                      for (i=0; i<len; i++){
+
+                          var summary = result['article'][i]['content'];
+                          var elip = summary.indexOf("[+");
+                          var title = result['article'][i]['title'];
+                          var newsLink = result['article'][i]['url'];
+                          var content = summary.substring(0, elip);
+
+                          if(content && title){
+                              $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                          } else if(title) {
+                              $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available.</p></td></tr>');
+
+                          }
+                      }
+                }
             } else {
-                for(var i = 0; i< $('.covidNews').length; i++) {
-                  if ($('.covidNews')[i].style.display == "none") {
-                          $('.covidNews')[i].style.display = "";
-                    };
+
+                    $("#newsTable").append(`<tr class="covidNews"><td><h6>News articles for Covid in `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
+
                 }
-
-                var sumStr = result['article'][0]['content'];
-                var title = result['article'][0]['title'];
-                var newsLink = result['article'][0]['url'];
-
-
-                if(sumStr) {
-                  var elip = sumStr.indexOf('…');
-                  $('#covidNewsContent').html(sumStr.substring(0,elip+1));
-                  $('#covidNewsLink').attr('href', result['article'][0]['url']);
-                } else {
-                  $('#covidNewsContent').html('A summary of the article is not available.');
-                  $('#covidNewsLink').attr('href', result['article'][0]['url']);
-                }
-
-                if (title) {
-                    $('#covidNewsLink').html('<b>' + title + '</b>');
-                } else {
-                    $('#covidNewsLink').html('Title unavailable')
-                }
-
-          }
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -412,14 +424,14 @@ function step1(country, code){
           $('#noCountryImageStatement').css('display', 'none');
           for (var i = 0; i < 5; i++){
             $('#noCountryImageStatement').after(function(){
-              return '<img src="' + result['data'][i]['webformatURL']+'" class="img countryImg"/> <p class="data countryAuthor">By ' +result['data'][i]['user']+'</p>';
+              return '<img src="' + result['data'][i]['webformatURL']+'" class="img countryImg"/> <p class="data countryAuthor">&copy; ' +result['data'][i]['user']+'</p>';
             });
           }
         } else if(len > 0) {
           $('#noCountryImageStatement').css('display', 'none');
           for (var i = 0; i < len; i++){
             $('#noCountryImageStatement').after(function(){
-              return '<img src="' + result['data'][i]['webformatURL']+'" class="img countryImg"/> <p class="data countryAuthor">By ' +result['data'][i]['user']+'</p>';
+              return '<img src="' + result['data'][i]['webformatURL']+'" class="img countryImg"/> <p class="data countryAuthor">&copy; ' +result['data'][i]['user']+'</p>';
             });
           }
         } else {
@@ -548,41 +560,49 @@ function step2(capital, currency, code) {
             console.log(result);
 
             if (result.status.name == 'ok') {
-              if(result['article'].length == 0){
+                $('.capitalNews').remove();
 
-                  for (var i = 0; i< $('.capitalNews').length; i++){
-                    $('.capitalNews')[i].style.display = "none";
-                  };
+                if(result['article']){
+                    var len  =  result['article'].length;
+                    if(len >= 5){
+                        for (i=0; i<5; i++){
 
-                  $('#capitalNewsTitle').css ('display', '');
-                  $('#capitalNewsLink').html('<b>News articles for ' + capital + ' could not be found.</b>');
+                            var summary = result['article'][i]['content'];
+                            var elip = summary.indexOf("[+");
+                            var title = result['article'][i]['title'];
+                            var newsLink = result['article'][i]['url'];
+                            var content = summary.substring(0, elip);
 
+                            if(content && title){
+                                $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                            }else if(title) {
+                                $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available</p></td></tr>');
+
+                            }
+                        }
+
+                    } else if(len > 0) {
+                        for (i=0; i<len; i++){
+
+                            var summary = result['article'][i]['content'];
+                            console.log(summary);
+                            var elip = summary.indexOf("[+");
+                            var title = result['article'][i]['title'];
+                            var newsLink = result['article'][i]['url'];
+                            var content = summary.substring(0, elip);
+
+                            if(content && title){
+                                $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
+
+                            } else if(title) {
+                                $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>A summary of the article is not available.</p></td></tr>');
+                            }
+                        }
+                  }
               } else {
-                  for(var i = 0; i< $('.capitalNews').length; i++) {
-                    if ($('.capitalNews')[i].style.display == "none") {
-                            $('.capitalNews')[i].style.display = "";
-                      };
-                  }
 
-                  var sumStr = result['article'][0]['content'];
-                  var title = result['article'][0]['title'];
-                  var newsLink = result['article'][0]['url'];
-
-
-                  if(sumStr) {
-                    var elip = sumStr.indexOf('…');
-                    $('#capitalNewsContent').html(sumStr.substring(0,elip+1));
-                    $('#capitalNewsLink').attr('href', result['article'][0]['url']);
-                  } else {
-                    $('#capitalNewsContent').html('A summary of the article is not available.');
-                    $('#capitalNewsLink').attr('href', result['article'][0]['url']);
-                  }
-
-                  if (title) {
-                      $('#capitalNewsTitle').html('<b>' + title + '</b>');
-                  } else {
-                      $('#capitalNewsTitle').html('Title unavailable')
-                  }
+                  $("#newsTable").append(`<tr class="capitalNews"><td><h6>News articles for in `+ capital + ` are not available.</h6></td></tr>`);
 
               }
             }
@@ -613,19 +633,19 @@ function step2(capital, currency, code) {
             $('.capitalAuthor').remove();
           }
 
+          $('#noCapitalImageStatement').css('display', 'none');
+
           var len = result['data'].length;
           if (len >= 5){
-            $('#noCapitalImageStatement').css('display', 'none');
             for (var i = 0; i < 5; i++){
               $('#noCapitalImageStatement').after(function(){
-                return '<img src="' + result['data'][i]['webformatURL'] + '" class="img capitalImg"/> <p class="data capitalAuthor">By ' + result['data'][i]['user'] + '</p>';
+                return '<img src="' + result['data'][i]['webformatURL'] + '" class="img capitalImg"/> <p class="data capitalAuthor">&copy; ' + result['data'][i]['user'] + '</p>';
               });
             }
           } else if(len > 0) {
-            $('#noCapitalImageStatement').css('display', 'none');
             for (var i = 0; i < len; i++){
               $('#noCapitalImageStatement').after(function(){
-                return '<img src="' + result['data'][i]['webformatURL'] + '" class="img capitalImg"/> <p class="data capitalAuthor">By ' + result['data'][i]['user'] + '</p>';
+                return '<img src="' + result['data'][i]['webformatURL'] + '" class="img capitalImg"/> <p class="data capitalAuthor">&copy; ' + result['data'][i]['user'] + '</p>';
               });
             }
           } else {
