@@ -115,7 +115,6 @@ ul li {
 
 td, tr{
     vertical-align: middle;
-    color: white;
 }
 
 table{
@@ -124,7 +123,7 @@ table{
 }
 
 #countryWikiLink{
-    color:white;
+    color:black;
 }
 
 
@@ -139,29 +138,28 @@ table{
 }
 
 a {
-    color:white;
+    color:black;
 }
  a:hover{
      text-decoration: underline;
      color: inherit;
  }
 
-.closeDiv{
-    padding: 5px;
-}
 
 .btn-close{
+    /*
     padding: 10px;
+    */
     background-color: red;
 }
 
-.modal{
-    color: white;
-}
 
 .modal-title{
+    /*
     margin: 0 auto;
+    */
     font-size: 1.5em;
+
 }
 
 .modal-body{
@@ -171,43 +169,4 @@ a {
 
 .link{
     text-decoration: none;
-}
-
-@media (min-width: 600px) {
-/*
-    #information {
-        width: 30vw;
-        min-width: 350px;
-        max-width: 450px;
-        max-height: 75vh;
-        position: fixed;
-        overflow-y: auto;
-        z-index: 3;
-        margin: 0 auto;
-        top: 100px;
-        left: 100px;
-        border: 2px solid black;
-    }
-*/
-
-    #countryModalDialog{
-
-    }
-
-    #newsModalDialog{
-
-    }
-
-    #exchangeModalDialog{
-
-    }
-
-    #imagesModalDialog{
-
-    }
-
-    #weatherModalDialog{
-
-    }
-
 }
