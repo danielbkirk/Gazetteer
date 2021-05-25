@@ -79,12 +79,10 @@
 
       <div class="modal fade" id="countryModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="countryModalDialog">
-              <div class="modal-content p-0 mb-0 bg-primary bg-gradient ">
-                  <div class="text-end closeDiv">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-header text-white">
+              <div class="modal-content p-0  bg-gradient">
+                  <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">Country Information</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body ">
 
@@ -100,32 +98,32 @@
                             </tr>
 
                             <tr>
-                              <td class="text-start bd-indego-400">Capital City:</td>
+                              <td class="text-start">Capital City</td>
                               <td class="capitalCity data text-end"></td>
                             </tr>
 
                             <tr>
-                              <td class="text-start">Population:</td>
+                              <td class="text-start">Population</td>
                               <td id="population" class="data text-end"></td>
                             </tr>
 
                             <tr>
-                              <td class="text-start">Continent:</td>
+                              <td class="text-start">Continent</td>
                               <td id="continent" class="data text-end"></td>
                             </tr>
 
                             <tr>
-                              <td class="text-start">Currency:</td>
+                              <td class="text-start">Currency</td>
                               <td class="currencyName data text-end"></td>
                             </tr>
 
                             <tr>
-                              <td class="text-start">Calling Code:</td>
+                              <td class="text-start">Calling Code</td>
                               <td id="callingCode" class="data text-end"></td>
                             </tr>
 
                             <tr>
-                              <td class="text-start">Main Language:</td>
+                              <td class="text-start">Main Language</td>
                               <td id="languageSpoken" class="data text-end"></td>
                             </tr>
 
@@ -137,51 +135,27 @@
                         </table>
                   </div>
 
+                  <div class="modal-footer">
+                  </div>
               </div>
           </div>
       </div>
 
       <div class="modal fade" id="newsModal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="newsModalDialog">
-              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
-                  <div class="text-end closeDiv">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
+              <div class="modal-content p-0  bg-gradient">
                   <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">News Reports</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
 
-                    <table id="countryNewsTable" class="table table-striped">
-                      <tr>
-                        <td>
-                            <h6 id="countryNewsTitle" class="countryNews">
-                              <a id="countryNewsLink" class="link data" target="_blank" href=""></a>
-                            </h6>
-                            <p id="countryNewsContent" class="data countryNews"></p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                            <h6 id="capitalNewsTitle" class="capitalNews">
-                              <a id="capitalNewsLink" class="link data" target="_blank" href=""></a>
-                            </h6>
-                            <p id="capitalNewsContent" class="data capitalNews"></p>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                            <h6 id="covidNewsTitle" class="covidNews">
-                              <a id="covidNewsLink" class="link" target="_blank" href=""></a>
-                            </h6>
-                            <p id="covidNewsContent" class="data covidNews"></p>
-                        </td>
-                      </tr>
+                    <table id="newsTable" class="table table-striped">
 
                     </table>
 
+                  </div>
+                  <div class="modal-footer">
                   </div>
 
               </div>
@@ -190,12 +164,10 @@
 
       <div class="modal fade" id="exchangeModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" id="exchangeModalDialog">
-              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
-                  <div class="text-end closeDiv">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
+              <div class="modal-content p-0  bg-gradient">
                   <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">Exchange Rates</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
 
@@ -214,6 +186,8 @@
 
                     </table>
                   </div>
+                  <div class="modal-footer">
+                  </div>
 
               </div>
           </div>
@@ -222,12 +196,10 @@
 
       <div class="modal fade" id="imagesModal"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="imagesModalDialog">
-              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
-                  <div class="text-end closeDiv">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
+              <div class="modal-content p-0 bg-gradient">
                   <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">Images of <span class="country" ></span> and <span class="capitalCity"></span></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
 
@@ -238,6 +210,8 @@
                           <p id='imgFooter'>All images are sourced from <a target="_blank" href="https://pixabay.com/">pixabay.com</a></p>
 
                   </div>
+                  <div class="modal-footer">
+                  </div>
 
               </div>
           </div>
@@ -245,36 +219,40 @@
 
       <div class="modal fade" id="weatherModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" id="weatherModalDialog">
-              <div class="modal-content p-0 mb-0 bg-primary bg-gradient">
-                  <div class="text-end closeDiv">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
+              <div class="modal-content p-0 bg-gradient">
                   <div class="modal-header">
-                      <h5 class="modal-title " id="staticBackdropLabel">Weather in <span class = "capitalCity"></span> </h5>
+                      <h5 class="modal-title " id="staticBackdropLabel">Weather in <span class = "capitalCity"></span></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
                       <div class="container">
                           <div class="row">
-                              <div class="row">
-                                  <h5>Today</h5>
-                              </div>
-
-                              <div class="row">
-                                  <div class="col">
-                                      <img id="weatherIcon0" src=""/>
+                              <div class="col">
+                                  <div class="row">
+                                      <h5>Today</h5>
                                   </div>
 
-                                  <div class="col">
-                                      <div class="row">
-                                          <span id="highTemp0"></span>
+                                  <div class="row">
+                                      <div class="col">
+                                          <img id="weatherIcon0" src=""/>
                                       </div>
-                                      <div class="row">
-                                          <span id="lowTemp0"></span>
-                                      </div>
-                                  </div>
 
-                                  <div class="col">
-                                      <span id="weatherDescription" class="align-middle"></span>
+                                      <div class="col">
+
+                                              <div class="row">
+                                                  <span id="highTemp0"></span>
+                                              </div>
+                                              <div class="row">
+                                                  <span id="lowTemp0"></span>
+                                              </div>
+
+                                      </div>
+
+                                      <div class="col">
+                                          <div class="row">
+                                              <span id="weatherDescription"></span>
+                                          </div>
+                                      </div>
                                   </div>
                               </div>
                           </div>
@@ -361,6 +339,8 @@
                               </div>
                           </div>
                       </div>
+                  </div>
+                  <div class="modal-footer">
                   </div>
 
               </div>
