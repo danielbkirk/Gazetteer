@@ -151,7 +151,8 @@
                   <div class="modal-body">
 
                     <table id="newsTable" class="table table-striped">
-
+                        
+                        <tfoot id="newsFooter"></tfoot>
                     </table>
 
                   </div>
@@ -237,20 +238,20 @@
                                           <img id="weatherIcon0" src=""/>
                                       </div>
 
-                                      <div class="col align-content-center flex-wrap">
-
+                                      <div class="col d-flex align-content-center flex-wrap">
+                                          <div class="weatherInfoDiv">
                                               <div class="row">
-                                                  <span id="highTemp0"></span>
+                                                  <p id="highTemp0" class="text-center"></p>
                                               </div>
                                               <div class="row">
-                                                  <span id="lowTemp0"></span>
+                                                  <p id="lowTemp0"></p>
                                               </div>
-
+                                        </div>
                                       </div>
 
                                       <div class="col d-flex align-content-center flex-wrap">
-                                          <div class="row">
-                                              <span id="weatherDescription"></span>
+                                          <div class="row weatherInfoDiv">
+                                              <p class="text-center" id="weatherDescription"></p>
                                           </div>
                                       </div>
                                   </div>
@@ -260,7 +261,7 @@
                           <div class="row">
                               <div class="col">
                                   <div class="row">
-                                      <span id="day1"></span>
+                                      <p id="day1"></p>
                                   </div>
 
                                   <div class="row">
@@ -280,7 +281,7 @@
 
                               <div class="col">
                                   <div class="row">
-                                      <span id="day2"></span>
+                                      <p id="day2"></p>
                                   </div>
 
                                   <div class="row">
@@ -300,7 +301,7 @@
 
                               <div class="col">
                                   <div class="row">
-                                      <span id="day3"></span>
+                                      <p id="day3"></p>
                                   </div>
 
                                   <div class="row">
@@ -320,7 +321,7 @@
 
                               <div class="col">
                                   <div class="row">
-                                      <span id="day4"></span>
+                                      <p id="day4"></p>
                                   </div>
 
                                   <div class="row">

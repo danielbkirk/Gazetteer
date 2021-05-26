@@ -280,19 +280,19 @@ function step1(country, code){
           if (result.status.name == 'ok') {
 
               $('.countryNews').remove();
-
-              if(result['article']){
+              if(result['article'].length){
                   var len  = result['article'].length;
                   if(len >= 5){
                       for (i=0; i<5; i++){
 
                           var summary = result['article'][i]['content'];
-                          var elip = summary.indexOf("[+");
                           var title = result['article'][i]['title'];
                           var newsLink = result['article'][i]['url'];
-                          var content = summary.substring(0, elip);
 
-                          if(content && title){
+                          if(summary && title){
+                              var elip = summary.indexOf("[+");
+                              var content = summary.substring(0, elip);
+
                               $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                           }else if(title) {
@@ -305,12 +305,13 @@ function step1(country, code){
                       for (i=0; i<len; i++){
 
                           var summary = result['article'][i]['content'];
-                          var elip = summary.indexOf("[+");
                           var title = result['article'][i]['title'];
                           var newsLink = result['article'][i]['url'];
-                          var content = summary.substring(0, elip);
 
-                          if(content && title){
+                          if(summary && title){
+                              var elip = summary.indexOf("[+");
+                              var content = summary.substring(0, elip);
+
                               $("#newsTable").append('<tr class="countryNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                           } else if(title) {
@@ -324,7 +325,7 @@ function step1(country, code){
 
             else {
 
-                $("#newsTable").append(`<tr class="countryNews"><td><h6>News articles for `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
+                $("#newsFooter").prepend(`<tr class="countryNews"><td><h6>News articles for `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
 
             }
           }
@@ -349,18 +350,18 @@ function step1(country, code){
           if (result.status.name == 'ok') {
               $('.covidNews').remove();
 
-              if(result['article']){
+              if(result['article'].length){
                   var len  =  result['article'].length;
                   if(len >= 5){
                       for (i=0; i<5; i++){
 
                           var summary = result['article'][i]['content'];
-                          var elip = summary.indexOf("[+");
                           var title = result['article'][i]['title'];
                           var newsLink = result['article'][i]['url'];
-                          var content = summary.substring(0, elip);
 
-                          if(content && title){
+                          if(summary && title){
+                              var elip = summary.indexOf("[+");
+                              var content = summary.substring(0, elip);
                               $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                           }else if(title) {
@@ -372,12 +373,12 @@ function step1(country, code){
                       for (i=0; i<len; i++){
 
                           var summary = result['article'][i]['content'];
-                          var elip = summary.indexOf("[+");
                           var title = result['article'][i]['title'];
                           var newsLink = result['article'][i]['url'];
-                          var content = summary.substring(0, elip);
 
-                          if(content && title){
+                          if(summary && title){
+                              var elip = summary.indexOf("[+");
+                              var content = summary.substring(0, elip);
                               $("#newsTable").append('<tr class="covidNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                           } else if(title) {
@@ -388,7 +389,7 @@ function step1(country, code){
                 }
             } else {
 
-                    $("#newsTable").append(`<tr class="covidNews"><td><h6>News articles for Covid in `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
+                    $("#newsFooter").prepend(`<tr class="covidNews"><td><h6>News articles for Covid in `+ $('#countryList option:selected').text() + ` are not available.</h6></td></tr>`);
 
                 }
         }
@@ -562,18 +563,18 @@ function step2(capital, currency, code) {
             if (result.status.name == 'ok') {
                 $('.capitalNews').remove();
 
-                if(result['article']){
+                if(result['article'].length){
                     var len  =  result['article'].length;
                     if(len >= 5){
                         for (i=0; i<5; i++){
 
                             var summary = result['article'][i]['content'];
-                            var elip = summary.indexOf("[+");
                             var title = result['article'][i]['title'];
                             var newsLink = result['article'][i]['url'];
-                            var content = summary.substring(0, elip);
 
-                            if(content && title){
+                            if(summary && title){
+                                var elip = summary.indexOf("[+");
+                                var content = summary.substring(0, elip);
                                 $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                             }else if(title) {
@@ -586,13 +587,12 @@ function step2(capital, currency, code) {
                         for (i=0; i<len; i++){
 
                             var summary = result['article'][i]['content'];
-                            console.log(summary);
-                            var elip = summary.indexOf("[+");
                             var title = result['article'][i]['title'];
                             var newsLink = result['article'][i]['url'];
-                            var content = summary.substring(0, elip);
 
-                            if(content && title){
+                            if(summary && title){
+                                var elip = summary.indexOf("[+");
+                                var content = summary.substring(0, elip);
                                 $("#newsTable").append('<tr class="capitalNews"><td><h6><a target="_blank" href="'+ newsLink +'">'+ title +'</a></h6><p>'+ content +'</p></td></tr>');
 
                             } else if(title) {
@@ -602,7 +602,7 @@ function step2(capital, currency, code) {
                   }
               } else {
 
-                  $("#newsTable").append(`<tr class="capitalNews"><td><h6>News articles for in `+ capital + ` are not available.</h6></td></tr>`);
+                  $("#newsFooter").prepend(`<tr class="capitalNews"><td><h6>News articles for in `+ capital + ` are not available.</h6></td></tr>`);
 
               }
             }

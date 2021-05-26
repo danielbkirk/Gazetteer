@@ -147,17 +147,17 @@ a {
 
 
 .btn-close{
-    /*
-    padding: 10px;
-    */
+
     background-color: red;
+}
+
+.weatherInfoDiv{
+    width: 100%;
 }
 
 
 .modal-title{
-    /*
-    margin: 0 auto;
-    */
+
     font-size: 1.5em;
 
 }
