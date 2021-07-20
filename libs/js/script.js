@@ -166,7 +166,7 @@ $(document).ready(function() {
 
         });
     } else {
-        alert("Geo Location not supported by this device.");
+        $('#countryList').val('GB').change();
     }
 
 });
