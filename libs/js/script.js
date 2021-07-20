@@ -66,7 +66,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   mymap.setMaxBounds([[-90,-180],[90,180]]);
   mymap.setMinZoom(3);
 
-
+mymap.zoomControl.setPosition('bottomleft');
 
   function twoDecimals(n) {
   var log10 = n ? Math.floor(Math.log10(n)) : 0,
