@@ -58,7 +58,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   var markers = L.markerClusterGroup({maxClusterRadius: 45});
 
   var overlays = {
-      "Markers": markers,
+      "Points of Interest": markers,
   };
 
   layerControl = L.control.layers(baseLayers, overlays, {position:'bottomright'}).addTo(mymap);
